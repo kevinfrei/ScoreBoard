@@ -62,10 +62,12 @@ function Full({ className, row, col }: pieceProps): JSX.Element {
   const cn = `${className || ''}${own}`;
   return (
     <div className={`term normal ${cn}`}>
-      <div className="redscore">&#9650; {score.red}</div>
-      <div className="bluescore">&#9650; {score.blue}</div>
-      <div className="redclick" onClick={incRed} />
-      <div className="blueclick" onClick={incBlue} />
+      <div className="redscore" onClick={incRed}>
+        &#9650; {score.red}
+      </div>
+      <div className="bluescore" onClick={incBlue}>
+        &#9650; {score.blue}
+      </div>
     </div>
   );
 }

@@ -114,6 +114,47 @@ export function redCircuit(getScore: (i: number) => NeutralScore): boolean {
 export function blueCircuit(getScore: (i: number) => NeutralScore): boolean {
   return connected(getScore, { row: 6, col: 6 }, { row: 0, col: 0 });
 }
+// row,col
+const normals: Array<[number, number]> = [
+  [-1, -1],
+  [-1, 0],
+  [-1, 1],
+  [0, -1],
+  [0, 1],
+  [1, -1],
+  [1, 0],
+  [1, 1],
+];
+const corner00: Array<[number, number]> = [
+  [1, 1],
+  [1, 2],
+  [2, 1],
+];
+const corner06: Array<[number, number]> = [
+  [1, -1],
+  [1, -2],
+  [2, -1],
+];
+const corner60: Array<[number, number]> = [
+  [-1, 1],
+  [-1, 2],
+  [-2, 1],
+];
+const corner66: Array<[number, number]> = [
+  [-1, -1],
+  [-1, -2],
+  [-2, -1],
+];
+function getDeltaArray(rc: RowCol): Array<[number, number]> {
+  if (isCorner(rc)) {
+    if (rc.row === 0) {
+      return rc.col === 0 ? corner00 : corner06;
+    } else {
+      return rc.col === 0 ? corner60 : corner66;
+    }
+  }
+  return normals;
+}
 
 // INTERVIEW QUESTION INCOMING!!!!
 export function connected(
@@ -150,35 +191,32 @@ export function connected(
     if (connects(item.rc, to)) {
       return true;
     }
-    for (let r = -1; r < 2; r++) {
-      for (let c = -1; c < 2; c++) {
-        const row = item.rc.row + r;
-        const col = item.rc.col + c;
-        const rc = { row, col };
-        if (
-          (r === 0 && c === 0) ||
-          row < 0 ||
-          row > 6 ||
-          col < 0 ||
-          col > 6 ||
-          isVisited(item.visited, rc)
-        ) {
-          continue;
-        }
-        // Add this to the worklist, if it's owned/capped
-        const score = getScore(getPos(rc));
-        if (score.owned || score.capped) {
-          worklist.push({ visited: setVisited(item.visited, rc), rc });
-        }
+    const deltaArray = getDeltaArray(item.rc);
+    for (const [r, c] of deltaArray) {
+      const row = item.rc.row + r;
+      const col = item.rc.col + c;
+      const rc = { row, col };
+      if (
+        row < 0 ||
+        row > 6 ||
+        col < 0 ||
+        col > 6 ||
+        isVisited(item.visited, rc)
+      ) {
+        continue;
+      }
+      // Add this to the worklist, if it's owned/capped
+      const score = getScore(getPos(rc));
+      if (score.owned || score.capped) {
+        worklist.push({ visited: setVisited(item.visited, rc), rc });
       }
     }
-    return false;
   }
-  return true;
+  return false;
 }
 
 // This is a helpful place to deal with corners...
-function connects(a: RowCol, b: RowCol): boolean {
+export function connects(a: RowCol, b: RowCol): boolean {
   if (Math.abs(a.row - b.row) < 2 && Math.abs(a.col - b.col) < 2) {
     return true;
   }

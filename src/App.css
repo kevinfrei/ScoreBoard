@@ -1,11 +1,24 @@
+html,
+body {
+  width: 100%;
+  height: 100%;
+  margin: 0;
+  padding: 0;
+}
+
 .App {
+  display: flex;
+  flex-direction: column;
+  justify-items: center;
+  align-items: center;
 }
 
 .board {
   display: grid;
-  grid-template-columns: 8vw 15vw 15vw 15vw 15vw 15vw 8vw;
-  grid-template-rows: 8vh 15vh 15vh 15vh 15vh 15vh 8vh;
+  grid-template-columns: 7vw 14vw 14vw 14vw 14vw 14vw 7vw;
+  grid-template-rows: 7vh 14vh 14vh 14vh 14vh 14vh 7vh;
   justify-content: center;
+  border: solid black 1pt;
 }
 
 .scoreboard {
@@ -33,13 +46,12 @@
 
 .tscore {
   background-color: #ffffffc0;
-  cursor: default;
 }
 
 .corner.red {
   background: linear-gradient(
       45deg,
-      transparent 44%,
+      transparent 45%,
       red 45%,
       red 55%,
       transparent 55%
@@ -154,31 +166,18 @@
 .normal {
   display: grid;
   grid-template-columns: 1fr 1fr;
-  grid-template-rows: 1fr 1fr;
   align-items: center;
   justify-items: center;
 }
 
 .redscore,
-.redclick {
+.red .tscore {
   color: red;
+  cursor: pointer;
 }
 
 .bluescore,
-.blueclick {
+.blue .tscore {
   color: blue;
-}
-
-.redclick,
-.blueclick {
-  height: 20pt;
-  width: 20pt;
-}
-
-.redclick {
-  background-color: red;
-}
-
-.blueclick {
-  background-color: blue;
+  cursor: pointer;
 }
