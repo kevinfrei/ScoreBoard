@@ -1,5 +1,5 @@
-import { atomFamily, RecoilState, RecoilValueReadOnly, selector, useRecoilCallback } from "recoil";
-import { getRC, JScore, junctionValue } from "./Scoring";
+import { atomFamily, RecoilState, RecoilValueReadOnly, selector } from 'recoil';
+import { getRC, JScore, junctionValue } from './Scoring';
 
 export const junctions = atomFamily<JScore, number>({
   key: 'junction',
@@ -68,18 +68,3 @@ export type MyTransactionInterface = {
   ) => void;
   reset: <T>(recoilVal: RecoilState<T>) => void;
 };
-
-type FnType<Args extends readonly unknown[], Return> = (
-  ...args: Args
-) => Return;
-
-// useRecoilTransaction hook
-export function useMyTransaction<Args extends readonly unknown[], Return>(
-  fn: (ntrface: MyTransactionInterface) => FnType<Args, Return>,
-): FnType<Args, Return> {
-  return useRecoilCallback(({ set, reset, snapshot }) => {
-    const get = <T>(recoilVal: RecoilState<T> | RecoilValueReadOnly<T>) =>
-      snapshot.getLoadable(recoilVal).getValue();
-    return fn({ set, reset, get });
-  });
-}

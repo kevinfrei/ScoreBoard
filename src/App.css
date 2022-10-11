@@ -17,6 +17,7 @@
 
 .tscore {
   background-color: #ffffffc0;
+  cursor: default;
 }
 
 .corner.red {
@@ -79,18 +80,89 @@
 }
 
 .normal.ground {
-  background: radial-gradient(gray 0%, black 15%, transparent 15%);
+  background: radial-gradient(
+    lightgray 0%,
+    lightgray 8%,
+    black 15%,
+    transparent 15%
+  );
+}
+.normal.ground.red {
+  background: radial-gradient(red 0%, red 3%, black 15%, transparent 15%);
+}
+.normal.ground.blue {
+  background: radial-gradient(
+    lightblue 0%,
+    blue 5%,
+    black 15%,
+    transparent 15%
+  );
 }
 
 .normal.low {
   background: radial-gradient(yellow 0%, yellow 5%, black 6%, transparent 7%);
 }
+.normal.low.red {
+  background: radial-gradient(red 0%, red 5%, black 6%, transparent 7%);
+}
+
+.normal.low.blue {
+  background: radial-gradient(blue 0%, blue 5%, black 6%, transparent 7%);
+}
 
 .normal.medium {
   background: radial-gradient(yellow 0%, yellow 8%, black 9%, transparent 10%);
 }
-
-.normal.high {
-  background: radial-gradient(yellow 0%, yellow 12%, black 13%, transparent 14%);
+.normal.medium.red {
+  background: radial-gradient(red 0%, red 8%, black 9%, transparent 10%);
+}
+.normal.medium.blue {
+  background: radial-gradient(blue 0%, blue 8%, black 9%, transparent 10%);
 }
 
+.normal.high {
+  background: radial-gradient(
+    yellow 0%,
+    yellow 12%,
+    black 13%,
+    transparent 14%
+  );
+}
+.normal.high.red {
+  background: radial-gradient(red 0%, red 12%, black 13%, transparent 14%);
+}
+.normal.high.blue {
+  background: radial-gradient(blue 0%, blue 12%, black 13%, transparent 14%);
+}
+
+.normal {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  grid-template-rows: 1fr 1fr;
+  align-items: center;
+  justify-items: center;
+}
+
+.redscore,
+.redclick {
+  color: red;
+}
+
+.bluescore,
+.blueclick {
+  color: blue;
+}
+
+.redclick,
+.blueclick {
+  height: 20pt;
+  width: 20pt;
+}
+
+.redclick {
+  background-color: red;
+}
+
+.blueclick {
+  background-color: blue;
+}

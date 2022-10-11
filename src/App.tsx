@@ -1,9 +1,8 @@
-import React from 'react';
-import { RecoilRoot, useRecoilValue } from 'recoil';
+import { RecoilRoot, useRecoilCallback, useRecoilValue } from 'recoil';
 import { getPos, JScore, junctionValueRC, RowCol } from './Scoring';
+import { blueScore, junctions, redScore } from './State';
 
 import './App.css';
-import { blueScore, junctions, redScore, useMyTransaction } from './State';
 
 function TerminalScore({ score }: { score: JScore }): JSX.Element {
   if (!score) {
@@ -21,7 +20,14 @@ type pieceProps = classType & RowCol;
 function Corner({ className, row, col }: pieceProps): JSX.Element {
   // increase the score for this corner when clicked
   const score = useRecoilValue(junctions(getPos({ row, col })));
-  const incScore = useMyTransaction(({ get, set }) => () => {});
+  const incScore = useRecoilCallback(({ set }) => () => {
+    const jnc = junctions(getPos({ row, col }));
+    if (row === col) {
+      set(jnc, (cur) => ({ ...cur, blue: cur.blue + 1 }));
+    } else {
+      set(jnc, (cur) => ({ ...cur, red: cur.red + 1 }));
+    }
+  });
   return (
     <div className={`term corner ${className || ''}`} onClick={incScore}>
       <TerminalScore score={score} />
@@ -37,8 +43,31 @@ function HEdge({ className }: classType): JSX.Element {
   return <div className={`term h-edge ${className || ''}`} />;
 }
 
-function Full({ className }: pieceProps): JSX.Element {
-  return <div className={`term normal ${className || ''}`} />;
+function Full({ className, row, col }: pieceProps): JSX.Element {
+  // increase the score for this corner when clicked
+  const score = useRecoilValue(junctions(getPos({ row, col })));
+  const incBlue = useRecoilCallback(({ set }) => () => {
+    const jnc = junctions(getPos({ row, col }));
+    set(jnc, (cur): JScore => ({ ...cur, blue: cur.blue + 1, owner: 'b' }));
+  });
+  const incRed = useRecoilCallback(({ set }) => () => {
+    const jnc = junctions(getPos({ row, col }));
+    set(jnc, (cur): JScore => ({ ...cur, red: cur.red + 1, owner: 'r' }));
+  });
+  const own = score.owner
+    ? score.owner.toLowerCase() === 'r'
+      ? ' red'
+      : ' blue'
+    : '';
+  const cn = `${className || ''}${own}`;
+  return (
+    <div className={`term normal ${cn}`}>
+      <div className="redscore">{score.red}</div>
+      <div className="bluescore">{score.blue}</div>
+      <div className="redclick" onClick={incRed} />
+      <div className="blueclick" onClick={incBlue} />
+    </div>
+  );
 }
 
 function Junction({ row, col }: RowCol): JSX.Element {
