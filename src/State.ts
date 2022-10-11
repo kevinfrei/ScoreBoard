@@ -16,10 +16,8 @@ export const redScore = selector<number>({
         continue;
       }
       const val = junctionValue(i);
-      if (i < 0) {
-        const { row, col } = getRC(i);
-        // Red is 0,0 and 6,6
-        total += row === col ? -val * jv.red : 0;
+      if (val < 0) {
+        total += jv.red;
       } else {
         total += val * jv.red;
         if (jv.owner === 'r') {
@@ -34,7 +32,7 @@ export const redScore = selector<number>({
 });
 
 export const blueScore = selector<number>({
-  key: 'red-score',
+  key: 'blue-score',
   get: ({ get }) => {
     let total = 0;
     for (let i = 0; i < 49; i++) {
@@ -43,10 +41,8 @@ export const blueScore = selector<number>({
         continue;
       }
       const val = junctionValue(i);
-      if (i < 0) {
-        const { col, row } = getRC(i);
-        // Blue is 0,6 and 6,0
-        total += row !== col ? -val * jv.blue : 0;
+      if (val < 0) {
+        total += jv.blue;
       } else {
         total += val * jv.blue;
         if (jv.owner === 'b') {
