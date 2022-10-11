@@ -1,6 +1,6 @@
 import { RecoilRoot, useRecoilCallback, useRecoilValue } from 'recoil';
 import { getPos, JScore, junctionValueRC, RowCol } from './Scoring';
-import { blueScore, junctions, redScore } from './State';
+import { autoScore, blueScore, junctions, redScore } from './State';
 
 import './App.css';
 
@@ -117,8 +117,28 @@ function TheField(): JSX.Element {
 function Scores() {
   const red = useRecoilValue(redScore);
   const blue = useRecoilValue(blueScore);
+  const auto = useRecoilValue(autoScore);
+  const registerAuto = useRecoilCallback(({ set }) => () => {
+    set(autoScore, { red, blue });
+  });
+  if (auto === null) {
+    return (
+      <div className="scoreboard">
+        <div>Autonomous period: </div>
+        <div>Red: {red.toString()}</div>
+        <div>Blue: {blue.toString()}</div>
+        <div className="button" onClick={registerAuto}>
+          Click to record Auto
+        </div>
+      </div>
+    );
+  }
   return (
-    <div className="scoreboard">
+    <div className="finalscoreboard">
+      <div>Autonomous period: </div>
+      <div>Red: {auto.red.toString()}</div>
+      <div>Blue: {auto.blue.toString()}</div>
+      <div>Final: </div>
       <div>Red: {red.toString()}</div>
       <div>Blue: {blue.toString()}</div>
     </div>

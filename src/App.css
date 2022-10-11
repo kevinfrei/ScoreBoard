@@ -13,6 +13,17 @@
   justify-content: space-around;
 }
 
+.finalscoreboard {
+  display: grid;
+  grid-template-columns: auto auto auto;
+  grid-template-rows: auto auto auto;
+  justify-content: space-around;
+}
+
+.button {
+  background-color: aliceblue;
+  padding: 2pt;
+}
 /* Center the contents of terminals */
 .term {
   display: flex;
@@ -64,23 +75,23 @@
 
 .h-edge.blue-depot {
   background: linear-gradient(0deg, white 50%, transparent 50%) no-repeat,
-    linear-gradient(45deg, transparent 44%, blue 45%, blue 55%, transparent 55%)
+    linear-gradient(45deg, transparent 46%, blue 46%, blue 54%, transparent 54%)
       no-repeat,
     linear-gradient(
         -45deg,
-        transparent 44%,
-        blue 45%,
-        blue 55%,
-        transparent 55%
+        transparent 46%,
+        blue 46%,
+        blue 54%,
+        transparent 54%
       )
       no-repeat;
 }
 
 .h-edge.red-depot {
   background: linear-gradient(0deg, transparent 50%, white 50%) no-repeat,
-    linear-gradient(45deg, transparent 44%, red 45%, red 55%, transparent 55%)
+    linear-gradient(45deg, transparent 46%, red 46%, red 54%, transparent 54%)
       no-repeat,
-    linear-gradient(-45deg, transparent 44%, red 45%, red 55%, transparent 55%)
+    linear-gradient(-45deg, transparent 46%, red 46%, red 54%, transparent 54%)
       no-repeat;
 }
 
