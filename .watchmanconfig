@@ -1,0 +1,7 @@
+{
+  "ignore_dirs": [
+    "node_modules"
+  ],
+  "hint_num_files_per_dir": 8,
+  "fsevents_latency": 0.05
+}

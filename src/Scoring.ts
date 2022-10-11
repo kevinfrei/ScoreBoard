@@ -116,7 +116,7 @@ export function blueCircuit(getScore: (i: number) => NeutralScore): boolean {
 }
 
 // INTERVIEW QUESTION INCOMING!!!!
-function connected(
+export function connected(
   getScore: (i: number) => NeutralScore,
   from: RowCol,
   to: RowCol,
