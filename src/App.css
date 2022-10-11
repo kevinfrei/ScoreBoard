@@ -5,7 +5,12 @@
   display: grid;
   grid-template-columns: 8vw 15vw 15vw 15vw 15vw 15vw 8vw;
   grid-template-rows: 8vh 15vh 15vh 15vh 15vh 15vh 8vh;
-  padding: 1px black;
+  justify-content: center;
+}
+
+.scoreboard {
+  display: flex;
+  justify-content: space-around;
 }
 
 /* Center the contents of terminals */

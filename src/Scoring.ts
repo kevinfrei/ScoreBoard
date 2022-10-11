@@ -1,7 +1,6 @@
+export type Score = { red: number; blue: number };
 
-export type JScore = {
-  red: number;
-  blue: number;
+export type JScore = Score & {
   // Capital letter means 'beacon'
   owner?: 'r' | 'b' | 'R' | 'B';
 };
@@ -50,4 +49,48 @@ export function junctionValueRC(row: number, col: number): number {
 export function junctionValue(pos: number): number {
   const { col, row } = getRC(pos);
   return junctionValueRC(row, col);
+}
+
+export type NeutralScore = { score: number; owned: boolean; capped: boolean };
+export function jToRed(junc: JScore): NeutralScore {
+  return {
+    score: junc.red,
+    owned: junc.owner === 'r',
+    capped: junc.owner === 'R',
+  };
+}
+export function jToBlue(junc: JScore): NeutralScore {
+  return {
+    score: junc.blue,
+    owned: junc.owner === 'b',
+    capped: junc.owner === 'B',
+  };
+}
+
+export function calcSide(
+  getScore: (i: number) => NeutralScore,
+  autoValue?: number,
+): number {
+  const countFinal = typeof autoValue === 'number';
+  let total = 0;
+  for (let i = 0; i < 49; i++) {
+    const jv = getScore(i);
+    if (jv.score === 0) {
+      continue;
+    }
+    const val = junctionValue(i);
+    if (val < 0) {
+      total += jv.score;
+    } else {
+      total += val * jv.score;
+      if (countFinal) {
+        if (jv.owned) {
+          total += 3;
+        } else if (jv.capped) {
+          total += 10;
+        }
+      }
+    }
+  }
+  return total + (countFinal ? autoValue : 0);
 }

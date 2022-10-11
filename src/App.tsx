@@ -11,7 +11,7 @@ function TerminalScore({ score }: { score: JScore }): JSX.Element {
   if (score.blue !== 0 && score.red !== 0) {
     return <div>ERROR!</div>;
   }
-  return <div className="tscore">&#9650;:{score.blue + score.red}</div>;
+  return <div className="tscore">&#9650; {score.blue + score.red}</div>;
 }
 
 type classType = { className?: string };
@@ -62,8 +62,8 @@ function Full({ className, row, col }: pieceProps): JSX.Element {
   const cn = `${className || ''}${own}`;
   return (
     <div className={`term normal ${cn}`}>
-      <div className="redscore">{score.red}</div>
-      <div className="bluescore">{score.blue}</div>
+      <div className="redscore">&#9650; {score.red}</div>
+      <div className="bluescore">&#9650; {score.blue}</div>
       <div className="redclick" onClick={incRed} />
       <div className="blueclick" onClick={incBlue} />
     </div>
@@ -118,9 +118,9 @@ function Scores() {
   const red = useRecoilValue(redScore);
   const blue = useRecoilValue(blueScore);
   return (
-    <div>
-      <div>Red:{red.toString()}</div>
-      <div>Blue:{blue.toString()}</div>
+    <div className="scoreboard">
+      <div>Red: {red.toString()}</div>
+      <div>Blue: {blue.toString()}</div>
     </div>
   );
 }
