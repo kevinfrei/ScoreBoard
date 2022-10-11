@@ -1,5 +1,13 @@
 import { atom, atomFamily, selector } from 'recoil';
-import { calcSide, JScore, jToBlue, jToRed, Score } from './Scoring';
+import {
+  blueCircuit,
+  calcSide,
+  JScore,
+  jToBlue,
+  jToRed,
+  redCircuit,
+  Score,
+} from './Scoring';
 
 export const junctions = atomFamily<JScore, number>({
   key: 'junction',
@@ -16,7 +24,11 @@ export const redScore = selector<number>({
   get: ({ get }) => {
     const getJunc = (i: number) => jToRed(get(junctions(i)));
     const auto = get(autoScore);
-    return auto !== null ? calcSide(getJunc, auto.red) : calcSide(getJunc);
+    if (auto !== null) {
+      return calcSide(getJunc, auto.red) + (redCircuit(getJunc) ? 20 : 0);
+    } else {
+      return calcSide(getJunc);
+    }
   },
 });
 
@@ -25,6 +37,10 @@ export const blueScore = selector<number>({
   get: ({ get }) => {
     const getJunc = (i: number) => jToBlue(get(junctions(i)));
     const auto = get(autoScore);
-    return auto !== null ? calcSide(getJunc, auto.blue) : calcSide(getJunc);
+    if (auto !== null) {
+      return calcSide(getJunc, auto.blue) + (blueCircuit(getJunc) ? 20 : 0);
+    } else {
+      return calcSide(getJunc);
+    }
   },
 });

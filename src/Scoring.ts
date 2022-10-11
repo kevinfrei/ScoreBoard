@@ -107,11 +107,11 @@ export function calcSide(
   return total + (countFinal ? autoValue : 0);
 }
 
-function redCircuit(getScore: (i: number) => NeutralScore): boolean {
+export function redCircuit(getScore: (i: number) => NeutralScore): boolean {
   return connected(getScore, { row: 0, col: 6 }, { row: 6, col: 0 });
 }
 
-function blueCircuit(getScore: (i: number) => NeutralScore): boolean {
+export function blueCircuit(getScore: (i: number) => NeutralScore): boolean {
   return connected(getScore, { row: 6, col: 6 }, { row: 0, col: 0 });
 }
 
@@ -124,6 +124,7 @@ function connected(
   if (getScore(getPos(from)).score === 0 || getScore(getPos(to)).score === 0) {
     return false;
   }
+  // Javascript doesn't have 49 bits of data guaranteed in an integer, so strings it is :/
   function emptyVisitor(): string {
     return '1234567abcdefg1234567abcdefg1234567abcdefg1234567';
   }
@@ -133,10 +134,6 @@ function connected(
   function setVisited(flags: string, rc: RowCol): string {
     const pos = getPos(rc);
     return flags.substring(0, pos) + 'X' + flags.substring(pos + 1);
-  }
-  function clrVisited(flags: string, rc: RowCol): string {
-    const pos = getPos(rc);
-    return flags.substring(0, pos) + '-' + flags.substring(pos + 1);
   }
   const start = setVisited(emptyVisitor(), from);
   type WorkItem = { visited: string; rc: RowCol };
@@ -153,7 +150,29 @@ function connected(
     if (connects(item.rc, to)) {
       return true;
     }
-    // TODO: Continue here
+    for (let r = -1; r < 2; r++) {
+      for (let c = -1; c < 2; c++) {
+        const row = item.rc.row + r;
+        const col = item.rc.col + c;
+        const rc = { row, col };
+        if (
+          (r === 0 && c === 0) ||
+          row < 0 ||
+          row > 6 ||
+          col < 0 ||
+          col > 6 ||
+          isVisited(item.visited, rc)
+        ) {
+          continue;
+        }
+        // Add this to the worklist, if it's owned/capped
+        const score = getScore(getPos(rc));
+        if (score.owned || score.capped) {
+          worklist.push({ visited: setVisited(item.visited, rc), rc });
+        }
+      }
+    }
+    return false;
   }
   return true;
 }
