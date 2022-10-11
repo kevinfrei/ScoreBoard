@@ -1,114 +1,78 @@
-import { atomFamily, RecoilRoot, selector, useRecoilValue } from 'recoil';
+import React from 'react';
+import { RecoilRoot, useRecoilValue } from 'recoil';
+import { getPos, JScore, junctionValueRC, RowCol } from './Scoring';
+
 import './App.css';
+import { blueScore, junctions, redScore, useMyTransaction } from './State';
 
-type JScore = {
-  red: number;
-  blue: number;
-  // Capital letter means 'beacon'
-  owner?: 'r' | 'b' | 'R' | 'B';
-};
-
-const junctions = atomFamily<JScore, number>({
-  key: 'junction',
-  default: { red: 0, blue: 0 },
-});
-
-function junctionValue(pos: number): number {
-  const col = Math.round(pos % 7);
-  const row = Math.round((pos - col) / 7);
-  if ((col === 0 || col === 6) && (row === 0 || row === 6)) {
-    // For terminals, a negative # means check for side
-    return -1;
+function TerminalScore({ score }: { score: JScore }): JSX.Element {
+  if (!score) {
+    return <></>;
   }
-  if (col === 0 || row === 0 || col === 6 || row === 6) {
-    // No junctions along the edges
-    return 0;
+  if (score.blue !== 0 && score.red !== 0) {
+    return <div>ERROR!</div>;
   }
-  // Outer ring: ground junctions are 2
-  // and low junctions are 3
-  if (col === 1 || col === 5) {
-    return 2 + ((row + 1) % 2);
-  }
-  if (row === 1 || row === 5) {
-    return 2 + ((col + 1) % 2);
-  }
-  // Center ground junction
-  if (row === 3 && col === 3) {
-    return 1;
-  }
-  // High junctions on the 'center' axes
-  if (row === 3 || col === 3) {
-    return 5;
-  }
-  // the last 4 are the medium junctions
-  return 4;
+  return <div className="tscore">&#9650;:{score.blue + score.red}</div>;
 }
 
-const redScore = selector<number>({
-  key: 'red-score',
-  get: ({ get }) => {
-    let total = 0;
-    for (let i = 0; i < 49; i++) {
-      const jv = get(junctions(i));
-      if (jv.red === 0) {
-        continue;
-      }
-      const val = junctionValue(i);
-      if (i < 0) {
-        const row = Math.round(i % 7);
-        const col = Math.round((i - row) / 7);
-        total += row === col ? -val * jv.red : 0;
-      } else {
-        total += val * jv.red;
-        if (jv.owner === 'r') {
-          total += 3;
-        } else if (jv.owner === 'R') {
-          total += 10;
-        }
-      }
-    }
-    return total;
-  },
-});
+type classType = { className?: string };
+type pieceProps = classType & RowCol;
 
-const blueScore = selector<number>({
-  key: 'red-score',
-  get: ({ get }) => {
-    let total = 0;
-    for (let i = 0; i < 49; i++) {
-      const jv = get(junctions(i));
-      if (jv.blue === 0) {
-        continue;
-      }
-      const val = junctionValue(i);
-      if (i < 0) {
-        const row = Math.round(i % 7);
-        const col = Math.round((i - row) / 7);
-        total += row === col ? -val * jv.blue : 0;
-      } else {
-        total += val * jv.blue;
-        if (jv.owner === 'b') {
-          total += 3;
-        } else if (jv.owner === 'B') {
-          total += 10;
-        }
-      }
-    }
-    return total;
-  },
-});
-
-function Junction({ row, col }: { row: number; col: number }): JSX.Element {
-  const score = useRecoilValue(junctions(row * 7 + col));
-  const owner = score.owner === 'r' ? '<=' : score.owner === 'b' ? '=>' : '__';
+function Corner({ className, row, col }: pieceProps): JSX.Element {
+  // increase the score for this corner when clicked
+  const score = useRecoilValue(junctions(getPos({ row, col })));
+  const incScore = useMyTransaction(({ get, set }) => () => {});
   return (
-    <>
-      <span>{`r${score.red}${owner}b${score.blue} ${junctionValue(
-        row * 7 + col,
-      )}}`}</span>
-      {col === 6 ? <br /> : <>&nbsp;</>}
-    </>
+    <div className={`term corner ${className || ''}`} onClick={incScore}>
+      <TerminalScore score={score} />
+    </div>
   );
+}
+
+function VEdge({ className }: classType): JSX.Element {
+  return <div className={`term v-edge ${className || ''}`} />;
+}
+
+function HEdge({ className }: classType): JSX.Element {
+  return <div className={`term h-edge ${className || ''}`} />;
+}
+
+function Full({ className }: pieceProps): JSX.Element {
+  return <div className={`term normal ${className || ''}`} />;
+}
+
+function Junction({ row, col }: RowCol): JSX.Element {
+  if ((row === 0 || row === 6) && (col === 0 || col === 6)) {
+    return (
+      <Corner className={row === col ? 'blue' : 'red'} row={row} col={col} />
+    );
+  }
+  if (row === 0 || row === 6) {
+    if (col === 3) {
+      return <HEdge className={row === 0 ? 'blue-depot' : 'red-depot'} />;
+    } else {
+      return <HEdge />;
+    }
+  }
+  if (col === 0 || col === 6) {
+    if (row === 3) {
+      return <VEdge className="stack" />;
+    } else {
+      return <VEdge />;
+    }
+  }
+  let className = '';
+  const score = junctionValueRC(row, col);
+  if (score === 2) {
+    className = 'ground';
+  } else if (score === 3) {
+    className = 'low';
+  } else if (score === 4) {
+    className = 'medium';
+  } else if (score === 5) {
+    className = 'high';
+  }
+  return <Full className={className} row={row} col={col} />;
 }
 
 function TheField(): JSX.Element {

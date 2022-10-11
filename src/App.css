@@ -1,20 +1,96 @@
 .App {
+}
+
+.board {
   display: grid;
-  grid-template-columns: 1fr 2fr 2fr 2fr 2fr 2fr 1fr;
-  grid-template-rows: 1fr 2fr 2fr 2fr 2fr 2fr 1fr;
+  grid-template-columns: 8vw 15vw 15vw 15vw 15vw 15vw 8vw;
+  grid-template-rows: 8vh 15vh 15vh 15vh 15vh 15vh 8vh;
+  padding: 1px black;
 }
 
-.corner {
-  min-width: 50;
-  min-height: 50;
+/* Center the contents of terminals */
+.term {
+  display: flex;
+  justify-content: center;
+  align-items: center;
 }
 
-.v-edge {
-  min-width: 50;
-  min-height: 100;
+.tscore {
+  background-color: #ffffffc0;
 }
 
-.h-edge {
-  min-width: 100;
-  min-height: 50;
+.corner.red {
+  background: linear-gradient(
+      45deg,
+      transparent 44%,
+      red 45%,
+      red 55%,
+      transparent 55%
+    )
+    no-repeat;
 }
+
+.corner.blue {
+  background: linear-gradient(
+      -45deg,
+      transparent 44%,
+      blue 45%,
+      blue 55%,
+      transparent 55%
+    )
+    no-repeat;
+}
+
+.v-edge.stack {
+  background: linear-gradient(
+      0deg,
+      transparent 7%,
+      red 7%,
+      red 14%,
+      transparent 14%,
+      transparent 86%,
+      blue 86%,
+      blue 93%,
+      transparent 93%
+    )
+    no-repeat;
+}
+
+.h-edge.blue-depot {
+  background: linear-gradient(0deg, white 50%, transparent 50%) no-repeat,
+    linear-gradient(45deg, transparent 44%, blue 45%, blue 55%, transparent 55%)
+      no-repeat,
+    linear-gradient(
+        -45deg,
+        transparent 44%,
+        blue 45%,
+        blue 55%,
+        transparent 55%
+      )
+      no-repeat;
+}
+
+.h-edge.red-depot {
+  background: linear-gradient(0deg, transparent 50%, white 50%) no-repeat,
+    linear-gradient(45deg, transparent 44%, red 45%, red 55%, transparent 55%)
+      no-repeat,
+    linear-gradient(-45deg, transparent 44%, red 45%, red 55%, transparent 55%)
+      no-repeat;
+}
+
+.normal.ground {
+  background: radial-gradient(gray 0%, black 15%, transparent 15%);
+}
+
+.normal.low {
+  background: radial-gradient(yellow 0%, yellow 5%, black 6%, transparent 7%);
+}
+
+.normal.medium {
+  background: radial-gradient(yellow 0%, yellow 8%, black 9%, transparent 10%);
+}
+
+.normal.high {
+  background: radial-gradient(yellow 0%, yellow 12%, black 13%, transparent 14%);
+}
+

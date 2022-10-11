@@ -1830,20 +1830,6 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@freik/web-utils@npm:^0.4.0":
-  version: 0.4.0
-  resolution: "@freik/web-utils@npm:0.4.0"
-  peerDependencies:
-    "@fluentui/react": ">=8.50.0"
-    "@fluentui/react-hooks": ">=8.1.0"
-    "@freik/core-utils": ">=1.2.0"
-    react: ">=17.0.0"
-    react-dom: ">=17.0.0"
-    recoil: ">=0.4.1"
-  checksum: 9b9485e0b15a2a1ce9748b45d67cc4e9ed5a0f817486f0fb04e62c843739da21ac0a21fc89ab696ebec96a1b7c2d2a426e663269e52a73b1b51032d2cd5cb187
-  languageName: node
-  linkType: hard
-
 "@gar/promisify@npm:^1.1.3":
   version: 1.1.3
   resolution: "@gar/promisify@npm:1.1.3"
@@ -13163,7 +13149,6 @@ __metadata:
   dependencies:
     "@freik/build-tools": ^3.4.2
     "@freik/core-utils": ^1.2.0
-    "@freik/web-utils": ^0.4.0
     "@jest/globals": ^29.1.2
     "@testing-library/jest-dom": ^5.16.5
     "@testing-library/react": ^13.4.0
