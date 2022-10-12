@@ -1,8 +1,24 @@
+.stats {
+  display: flex;
+  flex-direction: row;
+  width: 100%;
+  justify-content: space-evenly;
+}
+
 .scoreboard {
   display: grid;
   gap: 5pt;
   grid-template-columns: auto 1fr 1fr;
   grid-template-rows: auto auto auto;
+  justify-content: space-around;
+  margin: 5pt;
+}
+
+.coneboard {
+  display: grid;
+  gap: 5pt;
+  grid-template-columns: auto 1fr 1fr;
+  grid-template-rows: auto auto auto auto;
   justify-content: space-around;
   margin: 5pt;
 }

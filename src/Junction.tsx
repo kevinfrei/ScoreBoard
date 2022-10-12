@@ -1,6 +1,12 @@
 import { useRecoilCallback, useRecoilValue } from 'recoil';
 import { getPos, JScore, junctionValueRC, RowCol } from './Scoring';
-import { junctions } from './State';
+import {
+  autoScoreState,
+  junctionsStateFunc,
+  remainingConesState,
+  tryBlue,
+  tryRed,
+} from './State';
 
 import './styles/Junctions.css';
 
@@ -19,13 +25,15 @@ type pieceProps = classType & RowCol;
 
 function Corner({ className, row, col }: pieceProps): JSX.Element {
   // increase the score for this corner when clicked
-  const score = useRecoilValue(junctions(getPos({ row, col })));
+  const score = useRecoilValue(junctionsStateFunc(getPos({ row, col })));
+  const cones = useRecoilValue(remainingConesState);
+  const inAuto = useRecoilValue(autoScoreState);
   const incScore = useRecoilCallback(({ set }) => () => {
-    const jnc = junctions(getPos({ row, col }));
+    const jnc = junctionsStateFunc(getPos({ row, col }));
     if (row === col) {
-      set(jnc, (cur) => ({ ...cur, blue: cur.blue + 1 }));
+      tryBlue(set, jnc, cones, inAuto === null);
     } else {
-      set(jnc, (cur) => ({ ...cur, red: cur.red + 1 }));
+      tryRed(set, jnc, cones, inAuto === null);
     }
   });
   return (
@@ -45,14 +53,16 @@ function HEdge({ className }: classType): JSX.Element {
 
 function Full({ className, row, col }: pieceProps): JSX.Element {
   // increase the score for this corner when clicked
-  const score = useRecoilValue(junctions(getPos({ row, col })));
+  const score = useRecoilValue(junctionsStateFunc(getPos({ row, col })));
+  const cones = useRecoilValue(remainingConesState);
+  const inAuto = useRecoilValue(autoScoreState);
   const incBlue = useRecoilCallback(({ set }) => () => {
-    const jnc = junctions(getPos({ row, col }));
-    set(jnc, (cur): JScore => ({ ...cur, blue: cur.blue + 1, owner: 'b' }));
+    const jnc = junctionsStateFunc(getPos({ row, col }));
+    tryBlue(set, jnc, cones, inAuto === null);
   });
   const incRed = useRecoilCallback(({ set }) => () => {
-    const jnc = junctions(getPos({ row, col }));
-    set(jnc, (cur): JScore => ({ ...cur, red: cur.red + 1, owner: 'r' }));
+    const jnc = junctionsStateFunc(getPos({ row, col }));
+    tryRed(set, jnc, cones, inAuto === null);
   });
   const own = score.owner
     ? score.owner.toLowerCase() === 'r'

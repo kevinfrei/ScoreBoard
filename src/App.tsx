@@ -1,5 +1,5 @@
 import { RecoilRoot } from 'recoil';
-import { Scores } from './ScoreBoard';
+import { Stats } from './ScoreBoard';
 import { Field } from './Field';
 import './styles/App.css';
 
@@ -8,7 +8,7 @@ export default function App(): JSX.Element {
     <RecoilRoot>
       <div className="App">
         <Field />
-        <Scores />
+        <Stats />
       </div>
     </RecoilRoot>
   );

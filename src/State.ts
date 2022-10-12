@@ -1,4 +1,4 @@
-import { atom, atomFamily, selector } from 'recoil';
+import { atom, atomFamily, RecoilState, selector } from 'recoil';
 import {
   blueCircuit,
   calcSide,
@@ -12,34 +12,34 @@ import {
 
 // This is the number of total cones remaining
 // You use the auto's first, then the normals
-export const remainingCones = atom<ConeCount>({
+export const remainingConesState = atom<ConeCount>({
   key: 'cones left',
   default: {
     auto: { red: 5, blue: 5 },
-    normal: { red: 26, blue: 26 },
-    beacon: { red: 2, blue: 2 },
+    normal: { red: 0, blue: 0 },
+    beacon: { red: 0, blue: 0 },
   },
 });
 
 // This is the state for all the junctions (0-48)
-export const junctions = atomFamily<JScore, number>({
+export const junctionsStateFunc = atomFamily<JScore, number>({
   key: 'junction',
   default: { red: 0, blue: 0 },
 });
 
 // This is the full score calculated before starting to draw
 // down from the 'normal' cones
-export const autoScore = atom<Score | null>({
+export const autoScoreState = atom<Score | null>({
   key: 'auto',
   default: null,
 });
 
 // Calculate the score for red:
-export const redScore = selector<number>({
+export const redScoreState = selector<number>({
   key: 'red-score',
   get: ({ get }) => {
-    const getJunc = (i: number) => jToRed(get(junctions(i)));
-    const auto = get(autoScore);
+    const getJunc = (i: number) => jToRed(get(junctionsStateFunc(i)));
+    const auto = get(autoScoreState);
     if (auto !== null) {
       return calcSide(getJunc, auto.red) + (redCircuit(getJunc) ? 20 : 0);
     } else {
@@ -49,11 +49,11 @@ export const redScore = selector<number>({
 });
 
 // Calculate the score for blue
-export const blueScore = selector<number>({
+export const blueScoreState = selector<number>({
   key: 'blue-score',
   get: ({ get }) => {
-    const getJunc = (i: number) => jToBlue(get(junctions(i)));
-    const auto = get(autoScore);
+    const getJunc = (i: number) => jToBlue(get(junctionsStateFunc(i)));
+    const auto = get(autoScoreState);
     if (auto !== null) {
       return calcSide(getJunc, auto.blue) + (blueCircuit(getJunc) ? 20 : 0);
     } else {
@@ -61,3 +61,82 @@ export const blueScore = selector<number>({
     }
   },
 });
+
+type Setter = <T>(
+  recoilVal: RecoilState<T>,
+  valOrUpdater: ((currVal: T) => T) | T,
+) => void;
+
+// Helper function to try to score cones
+// These are state maniuplation functions, so they're a little clunky
+export function tryBlue(
+  set: Setter,
+  junction: RecoilState<JScore>,
+  cones: ConeCount,
+  inAuto: boolean,
+): void {
+  if (inAuto) {
+    // Only do it if we have some blue cones left
+    if (cones.auto.blue > 0) {
+      set(
+        junction,
+        (cur): JScore => ({ ...cur, blue: cur.blue + 1, owner: 'b' }),
+      );
+      set(remainingConesState, {
+        auto: { blue: cones.auto.blue - 1, red: cones.auto.red },
+        normal: cones.normal,
+        beacon: cones.beacon,
+      });
+    }
+  } else {
+    // Normal cones
+    if (cones.normal.blue > 0) {
+      set(
+        junction,
+        (cur): JScore => ({ ...cur, blue: cur.blue + 1, owner: 'b' }),
+      );
+      set(remainingConesState, {
+        auto: cones.auto,
+        normal: { blue: cones.normal.blue - 1, red: cones.normal.red },
+        beacon: cones.beacon,
+      });
+    }
+  }
+  // TODO: add support for beacon scoring
+}
+
+export function tryRed(
+  set: Setter,
+  junction: RecoilState<JScore>,
+  cones: ConeCount,
+  inAuto: boolean,
+): void {
+  if (inAuto) {
+    // Only do it if we have some blue cones left
+    if (cones.auto.red > 0) {
+      set(
+        junction,
+        (cur): JScore => ({ ...cur, red: cur.red + 1, owner: 'r' }),
+      );
+      set(remainingConesState, {
+        auto: { red: cones.auto.red - 1, blue: cones.auto.blue },
+        normal: cones.normal,
+        beacon: cones.beacon,
+      });
+    }
+  } else {
+    // Normal cones
+    if (cones.normal.red > 0) {
+      set(
+        junction,
+        (cur): JScore => ({ ...cur, red: cur.red + 1, owner: 'r' }),
+      );
+      set(remainingConesState, {
+        auto: cones.auto,
+        normal: { red: cones.normal.red - 1, blue: cones.normal.blue },
+        beacon: cones.beacon,
+      });
+    }
+  }
+  // TODO: add support for beacon scoring
+}
