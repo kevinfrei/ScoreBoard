@@ -1,15 +1,13 @@
 {
   "files": {
-    "main.css": "https://kevinfrei.github.io/ScoreBoard/static/css/main.f23887d2.css",
-    "main.js": "https://kevinfrei.github.io/ScoreBoard/static/js/main.8c470bb3.js",
-    "static/js/496.e403d0ae.chunk.js": "https://kevinfrei.github.io/ScoreBoard/static/js/496.e403d0ae.chunk.js",
+    "main.css": "https://kevinfrei.github.io/ScoreBoard/static/css/main.12decf11.css",
+    "main.js": "https://kevinfrei.github.io/ScoreBoard/static/js/main.d1a8c961.js",
     "index.html": "https://kevinfrei.github.io/ScoreBoard/index.html",
-    "main.f23887d2.css.map": "https://kevinfrei.github.io/ScoreBoard/static/css/main.f23887d2.css.map",
-    "main.8c470bb3.js.map": "https://kevinfrei.github.io/ScoreBoard/static/js/main.8c470bb3.js.map",
-    "496.e403d0ae.chunk.js.map": "https://kevinfrei.github.io/ScoreBoard/static/js/496.e403d0ae.chunk.js.map"
+    "main.12decf11.css.map": "https://kevinfrei.github.io/ScoreBoard/static/css/main.12decf11.css.map",
+    "main.d1a8c961.js.map": "https://kevinfrei.github.io/ScoreBoard/static/js/main.d1a8c961.js.map"
   },
   "entrypoints": [
-    "static/css/main.f23887d2.css",
-    "static/js/main.8c470bb3.js"
+    "static/css/main.12decf11.css",
+    "static/js/main.d1a8c961.js"
   ]
 }
