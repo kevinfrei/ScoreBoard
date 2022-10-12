@@ -9,6 +9,12 @@ export type JScore = Score & {
 
 export type RowCol = { row: number; col: number };
 
+export type ConeCount = {
+  auto: Score;
+  normal: Score;
+  beacon: Score;
+};
+
 export function getRC(i: number): RowCol {
   const col = Math.round(i % 7);
   const row = Math.round((i - col) / 7);

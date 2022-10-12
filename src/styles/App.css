@@ -1,0 +1,33 @@
+html,
+body {
+  width: 100%;
+  height: 100%;
+  margin: 0;
+  padding: 0;
+}
+
+.App {
+  display: flex;
+  flex-direction: column;
+  justify-items: center;
+  align-items: center;
+}
+
+.button {
+  background: radial-gradient(#ddd 0%, #eee 90%, #fff 100%);
+  padding: 1pt;
+  border: solid 1pt black;
+  border-radius: 4pt;
+  cursor: pointer;
+  margin: 2pt;
+}
+
+.redscore,
+.red .tscore {
+  color: red;
+}
+
+.bluescore,
+.blue .tscore {
+  color: blue;
+}

@@ -1,0 +1,26 @@
+.scoreboard {
+  display: grid;
+  gap: 5pt;
+  grid-template-columns: auto 1fr 1fr;
+  grid-template-rows: auto auto auto;
+  justify-content: space-around;
+  margin: 5pt;
+}
+
+.auto {
+  grid-column: 1 / span 3;
+  text-align: center;
+}
+
+.header {
+  font-weight: bold;
+}
+
+.label {
+  text-align: right;
+  font-weight: bold;
+}
+
+.score {
+  text-align: center;
+}

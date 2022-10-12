@@ -1,0 +1,7 @@
+.field {
+  display: grid;
+  grid-template-columns: 7vw 14vw 14vw 14vw 14vw 14vw 7vw;
+  grid-template-rows: 7vh 14vh 14vh 14vh 14vh 14vh 7vh;
+  justify-content: center;
+  border: solid black 1pt;
+}
