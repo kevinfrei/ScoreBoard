@@ -15,12 +15,11 @@ body {
 
 .button {
   background: radial-gradient(#ddd 0%, #eee 90%, #fff 100%);
-  padding: 1pt;
   border: solid 1pt black;
-  border-radius: 4pt;
+  border-radius: 3pt;
   cursor: pointer;
   margin: 2pt;
-  padding: 3pt 3pt 1pt 3pt;
+  padding: 3pt 3pt 2pt 3pt;
 }
 
 .redscore,

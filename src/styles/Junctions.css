@@ -126,7 +126,13 @@
 
 .normal {
   display: grid;
-  grid-template-columns: 1fr 1fr;
+  grid-template-columns: 1fr auto 1fr;
   align-items: center;
   justify-items: center;
+}
+
+.bcn {
+  font-size: large;
+  font-weight: bold;
+  color: white;
 }

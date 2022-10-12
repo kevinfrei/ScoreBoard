@@ -1,8 +1,10 @@
-import { useRecoilCallback, useRecoilValue } from 'recoil';
+import { useRecoilCallback, useRecoilState, useRecoilValue } from 'recoil';
 import { ConeCount } from './Scoring';
 import {
   autoScoreState,
   blueScoreState,
+  inAutoState,
+  placeBeaconsState,
   redScoreState,
   remainingConesState,
 } from './State';
@@ -41,9 +43,9 @@ export function Scores() {
       <div />
       <div className="header">Red</div>
       <div className="header">Blue</div>
-      <div className="label">Autonomous period</div>
-      <div className="score">{auto.red}</div>
-      <div className="score">{auto.blue}</div>
+      <div className="label inactive">Autonomous period</div>
+      <div className="score inactive">{auto.red}</div>
+      <div className="score inactive">{auto.blue}</div>
       <div className="label">Final</div>
       <div className="score">{red}</div>
       <div className="score">{blue}</div>
@@ -53,14 +55,15 @@ export function Scores() {
 
 export function ConesRemaining(): JSX.Element {
   const cones = useRecoilValue(remainingConesState);
+  const inactive = useRecoilValue(inAutoState) ? '' : ' inactive';
   return (
     <div className="coneboard">
       <div className="header">Cones Remaining</div>
       <div className="header">Red</div>
       <div className="header">Blue</div>
-      <div className="label">Autonomous</div>
-      <div className="score">{cones.auto.red}</div>
-      <div className="score">{cones.auto.blue}</div>
+      <div className={`label${inactive}`}>Autonomous</div>
+      <div className={`score${inactive}`}>{cones.auto.red}</div>
+      <div className={`score${inactive}`}>{cones.auto.blue}</div>
       <div className="label">Regular</div>
       <div className="score">{cones.normal.red}</div>
       <div className="score">{cones.normal.blue}</div>
@@ -72,9 +75,20 @@ export function ConesRemaining(): JSX.Element {
 }
 
 export function Stats(): JSX.Element {
+  const inAuto = useRecoilValue(inAutoState);
+  const [placing, setPlacing] = useRecoilState(placeBeaconsState);
+  const text = placing ? 'Place Cones' : 'Place Beacons';
+  const flipBeacon = () => setPlacing(!placing);
   return (
     <div className="stats">
       <Scores />
+      {inAuto ? (
+        <></>
+      ) : (
+        <div className="button beacon" onClick={flipBeacon}>
+          {text}
+        </div>
+      )}
       <ConesRemaining />
     </div>
   );

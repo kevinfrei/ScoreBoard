@@ -1,7 +1,8 @@
 import { useRecoilCallback, useRecoilValue } from 'recoil';
 import { getPos, JScore, junctionValueRC, RowCol } from './Scoring';
 import {
-  autoScoreState,
+  coneState,
+  inAutoState,
   junctionsStateFunc,
   remainingConesState,
   tryBlue,
@@ -27,13 +28,13 @@ function Corner({ className, row, col }: pieceProps): JSX.Element {
   // increase the score for this corner when clicked
   const score = useRecoilValue(junctionsStateFunc(getPos({ row, col })));
   const cones = useRecoilValue(remainingConesState);
-  const inAuto = useRecoilValue(autoScoreState);
+  const inAuto = useRecoilValue(inAutoState);
   const incScore = useRecoilCallback(({ set }) => () => {
     const jnc = junctionsStateFunc(getPos({ row, col }));
     if (row === col) {
-      tryBlue(set, jnc, cones, inAuto === null);
+      tryBlue(set, jnc, cones, inAuto ? 'auto' : 'normal');
     } else {
-      tryRed(set, jnc, cones, inAuto === null);
+      tryRed(set, jnc, cones, inAuto ? 'auto' : 'normal');
     }
   });
   return (
@@ -51,30 +52,43 @@ function HEdge({ className }: classType): JSX.Element {
   return <div className={`term h-edge ${className || ''}`} />;
 }
 
+function getOwnStyle(owner?: 'r' | 'R' | 'b' | 'B'): string {
+  switch (owner) {
+    case 'r':
+      return ' red';
+    case 'R':
+      return ' red bcn';
+    case 'b':
+      return ' blue';
+    case 'B':
+      return ' blue bcn';
+    default:
+      return '';
+  }
+}
+
 function Full({ className, row, col }: pieceProps): JSX.Element {
   // increase the score for this corner when clicked
   const score = useRecoilValue(junctionsStateFunc(getPos({ row, col })));
   const cones = useRecoilValue(remainingConesState);
-  const inAuto = useRecoilValue(autoScoreState);
+  const cstate = useRecoilValue(coneState);
   const incBlue = useRecoilCallback(({ set }) => () => {
     const jnc = junctionsStateFunc(getPos({ row, col }));
-    tryBlue(set, jnc, cones, inAuto === null);
+    tryBlue(set, jnc, cones, cstate);
   });
   const incRed = useRecoilCallback(({ set }) => () => {
     const jnc = junctionsStateFunc(getPos({ row, col }));
-    tryRed(set, jnc, cones, inAuto === null);
+    tryRed(set, jnc, cones, cstate);
   });
-  const own = score.owner
-    ? score.owner.toLowerCase() === 'r'
-      ? ' red'
-      : ' blue'
-    : '';
-  const cn = `${className || ''}${own}`;
+  const cn = `${className || ''}${getOwnStyle(score.owner)}`;
+  const isCapped = score.owner === 'B' || score.owner === 'R';
+  const mid = isCapped ? <div>X</div> : <div/>;
   return (
     <div className={`term normal ${cn}`}>
       <div className="redscore button" onClick={incRed}>
         &#9650; {score.red}
       </div>
+      {mid}
       <div className="bluescore button" onClick={incBlue}>
         &#9650; {score.blue}
       </div>
