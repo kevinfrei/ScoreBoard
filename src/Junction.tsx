@@ -82,7 +82,7 @@ function Full({ className, row, col }: pieceProps): JSX.Element {
   });
   const cn = `${className || ''}${getOwnStyle(score.owner)}`;
   const isCapped = score.owner === 'B' || score.owner === 'R';
-  const mid = isCapped ? <div>X</div> : <div/>;
+  const mid = isCapped ? <div>X</div> : <div />;
   return (
     <div className={`term normal ${cn}`}>
       <div className="redscore button" onClick={incRed}>
