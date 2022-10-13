@@ -7,6 +7,9 @@ export type JScore = Score & {
   owner?: 'r' | 'b' | 'R' | 'B';
 };
 
+// This is used to work with a score red/blue independently
+export type NeutralScore = { score: number; owned: boolean; capped: boolean };
+
 export type RowCol = { row: number; col: number };
 
 export type ConeCount = {
@@ -65,8 +68,15 @@ export function junctionValue(pos: number): number {
   return junctionValueRC(row, col);
 }
 
-// This is used to score red/blue independently
-export type NeutralScore = { score: number; owned: boolean; capped: boolean };
+export function getNameOfJunction(row: number, col: number): string {
+  const score = junctionValueRC(row, col);
+  if (score === 2) return 'ground';
+  if (score === 3) return 'low';
+  if (score === 4) return 'medium';
+  if (score === 5) return 'high';
+  return '';
+}
+
 // Junction score to red score
 export function jToRed(junc: JScore): NeutralScore {
   return {
@@ -120,6 +130,7 @@ export function redCircuit(getScore: (i: number) => NeutralScore): boolean {
 export function blueCircuit(getScore: (i: number) => NeutralScore): boolean {
   return connected(getScore, { row: 6, col: 6 }, { row: 0, col: 0 });
 }
+
 // row,col
 const normals: Array<[number, number]> = [
   [-1, -1],
@@ -151,6 +162,7 @@ const corner66: Array<[number, number]> = [
   [-1, -2],
   [-2, -1],
 ];
+
 function getDeltaArray(rc: RowCol): Array<[number, number]> {
   if (isCorner(rc)) {
     if (rc.row === 0) {
