@@ -6,6 +6,6 @@ import App from '../App';
 // I'm bad at UI testing. Scoring test is actually useful
 test('renders learn react link', () => {
   render(<App />);
-  const linkElement = screen.getByText(/Beacons/i);
+  const linkElement = screen.getByText(/Cones Remaining/i);
   expect(linkElement).toBeInTheDocument();
 });

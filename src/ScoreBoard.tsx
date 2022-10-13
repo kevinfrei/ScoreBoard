@@ -4,6 +4,7 @@ import {
   autoScoreState,
   blueScoreState,
   inAutoState,
+  junctionsStateFunc,
   placeBeaconsState,
   redScoreState,
   remainingConesState,
@@ -74,21 +75,41 @@ export function ConesRemaining(): JSX.Element {
   );
 }
 
-export function Stats(): JSX.Element {
-  const inAuto = useRecoilValue(inAutoState);
+function ButtonPanel(): JSX.Element {
   const [placing, setPlacing] = useRecoilState(placeBeaconsState);
   const text = placing ? 'Place Cones' : 'Place Beacons';
   const flipBeacon = () => setPlacing(!placing);
+  const inAuto = useRecoilValue(inAutoState);
+  const beacon = inAuto ? (
+    <div className="button beacon" onClick={flipBeacon}>
+      {text}
+    </div>
+  ) : (
+    <div />
+  );
+  const clickReset = useRecoilCallback(({ reset }) => () => {
+    reset(remainingConesState);
+    reset(autoScoreState);
+    reset(placeBeaconsState);
+    for (let i = 0; i < 49; i++) {
+      reset(junctionsStateFunc(i));
+    }
+  });
+  return (
+    <div id="button-panel">
+      <div className="button" onClick={clickReset}>
+        Reset Game!
+      </div>
+      {beacon}
+    </div>
+  );
+}
+
+export function Stats(): JSX.Element {
   return (
     <div className="stats">
       <Scores />
-      {inAuto ? (
-        <></>
-      ) : (
-        <div className="button beacon" onClick={flipBeacon}>
-          {text}
-        </div>
-      )}
+      <ButtonPanel />
       <ConesRemaining />
     </div>
   );
