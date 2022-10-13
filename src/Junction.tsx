@@ -1,13 +1,6 @@
-import { useRecoilCallback, useRecoilValue } from 'recoil';
+import { useRecoilValue } from 'recoil';
 import { getPos, JScore, junctionValueRC, RowCol } from './Scoring';
-import {
-  coneState,
-  inAutoState,
-  junctionsStateFunc,
-  remainingConesState,
-  tryBlue,
-  tryRed,
-} from './State';
+import { junctionsStateFunc, tryBlue, tryRed, useMyTransaction } from './State';
 
 import './styles/Junctions.css';
 
@@ -27,14 +20,12 @@ type pieceProps = classType & RowCol;
 function Corner({ className, row, col }: pieceProps): JSX.Element {
   // increase the score for this corner when clicked
   const score = useRecoilValue(junctionsStateFunc(getPos({ row, col })));
-  const cones = useRecoilValue(remainingConesState);
-  const inAuto = useRecoilValue(inAutoState);
-  const incScore = useRecoilCallback(({ set }) => () => {
+  const incScore = useMyTransaction((xact) => () => {
     const jnc = junctionsStateFunc(getPos({ row, col }));
     if (row === col) {
-      tryBlue(set, jnc, cones, inAuto ? 'auto' : 'normal');
+      tryBlue(xact, jnc);
     } else {
-      tryRed(set, jnc, cones, inAuto ? 'auto' : 'normal');
+      tryRed(xact, jnc);
     }
   });
   return (
@@ -70,19 +61,17 @@ function getOwnStyle(owner?: 'r' | 'R' | 'b' | 'B'): string {
 function Full({ className, row, col }: pieceProps): JSX.Element {
   // increase the score for this corner when clicked
   const score = useRecoilValue(junctionsStateFunc(getPos({ row, col })));
-  const cones = useRecoilValue(remainingConesState);
-  const cstate = useRecoilValue(coneState);
-  const incBlue = useRecoilCallback(({ set }) => () => {
+  const incBlue = useMyTransaction((xact) => () => {
     const jnc = junctionsStateFunc(getPos({ row, col }));
-    tryBlue(set, jnc, cones, cstate);
+    tryBlue(xact, jnc);
   });
-  const incRed = useRecoilCallback(({ set }) => () => {
+  const incRed = useMyTransaction((xact) => () => {
     const jnc = junctionsStateFunc(getPos({ row, col }));
-    tryRed(set, jnc, cones, cstate);
+    tryRed(xact, jnc);
   });
   const cn = `${className || ''}${getOwnStyle(score.owner)}`;
   const isCapped = score.owner === 'B' || score.owner === 'R';
-  const mid = isCapped ? <div>X</div> : <div />;
+  const mid = isCapped ? <div className="capped">&#x1f451;</div> : <div />;
   return (
     <div className={`term normal ${cn}`}>
       <div className="redscore button" onClick={incRed}>

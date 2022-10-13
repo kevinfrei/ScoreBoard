@@ -131,8 +131,13 @@
   justify-items: center;
 }
 
-.bcn {
-  font-size: large;
-  font-weight: bold;
+.bcn.button {
   color: white;
+  cursor: not-allowed;
+}
+
+.capped {
+  font-size: x-large;
+  font-weight: bold;
+  margin-top: -20pt;
 }

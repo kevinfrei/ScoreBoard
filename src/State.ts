@@ -1,4 +1,11 @@
-import { atom, atomFamily, RecoilState, selector } from 'recoil';
+import {
+  atom,
+  atomFamily,
+  RecoilState,
+  RecoilValueReadOnly,
+  selector,
+  useRecoilCallback,
+} from 'recoil';
 import {
   blueCircuit,
   calcSide,
@@ -11,6 +18,30 @@ import {
 } from './Scoring';
 
 export type ConeState = 'auto' | 'normal' | 'beacon';
+
+export type MyTransactionInterface = {
+  get: <T>(recoilVal: RecoilState<T> | RecoilValueReadOnly<T>) => T;
+  set: <T>(
+    recoilVal: RecoilState<T>,
+    valOrUpdater: ((currVal: T) => T) | T,
+  ) => void;
+  reset: <T>(recoilVal: RecoilState<T>) => void;
+};
+
+type FnType<Args extends readonly unknown[], Return> = (
+  ...args: Args
+) => Return;
+
+// Use my own hook instead of the (no selectors) useRecoilTransaction hook
+export function useMyTransaction<Args extends readonly unknown[], Return>(
+  fn: (ntrface: MyTransactionInterface) => FnType<Args, Return>,
+): FnType<Args, Return> {
+  return useRecoilCallback(({ set, reset, snapshot }) => {
+    const get = <T>(recoilVal: RecoilState<T> | RecoilValueReadOnly<T>) =>
+      snapshot.getLoadable(recoilVal).getValue();
+    return fn({ set, reset, get });
+  });
+}
 
 // This is the number of total cones remaining
 // You use the auto's first, then the normals
@@ -80,26 +111,23 @@ export const blueScoreState = selector<number>({
   },
 });
 
-type Setter = <T>(
-  recoilVal: RecoilState<T>,
-  valOrUpdater: ((currVal: T) => T) | T,
-) => void;
+function canPlace(qty: number, jnc: JScore): boolean {
+  return qty > 0 && jnc.owner !== 'B' && jnc.owner !== 'R';
+}
 
 // Helper function to try to score cones
 // These are state maniuplation functions, so they're a little clunky
 export function tryBlue(
-  set: Setter,
+  { get, set }: MyTransactionInterface,
   junction: RecoilState<JScore>,
-  cones: ConeCount,
-  state: ConeState,
 ): void {
-  switch (state) {
+  const cones = get(remainingConesState);
+  const cstate = get(coneState);
+  const cur = get(junction);
+  switch (cstate) {
     case 'auto':
-      if (cones.auto.blue > 0) {
-        set(
-          junction,
-          (cur): JScore => ({ ...cur, blue: cur.blue + 1, owner: 'b' }),
-        );
+      if (canPlace(cones.auto.blue, cur)) {
+        set(junction, { ...cur, blue: cur.blue + 1, owner: 'b' });
         set(remainingConesState, {
           auto: { blue: cones.auto.blue - 1, red: cones.auto.red },
           normal: cones.normal,
@@ -108,11 +136,8 @@ export function tryBlue(
       }
       break;
     case 'normal':
-      if (cones.normal.blue > 0) {
-        set(
-          junction,
-          (cur): JScore => ({ ...cur, blue: cur.blue + 1, owner: 'b' }),
-        );
+      if (canPlace(cones.normal.blue, cur)) {
+        set(junction, { ...cur, blue: cur.blue + 1, owner: 'b' });
         set(remainingConesState, {
           auto: cones.auto,
           normal: { blue: cones.normal.blue - 1, red: cones.normal.red },
@@ -121,11 +146,8 @@ export function tryBlue(
       }
       break;
     case 'beacon':
-      if (cones.beacon.blue > 0) {
-        set(
-          junction,
-          (cur): JScore => ({ ...cur, blue: cur.blue + 1, owner: 'B' }),
-        );
+      if (canPlace(cones.beacon.blue, cur)) {
+        set(junction, { ...cur, blue: cur.blue + 1, owner: 'B' });
         set(remainingConesState, {
           auto: cones.auto,
           normal: cones.normal,
@@ -137,19 +159,17 @@ export function tryBlue(
 }
 
 export function tryRed(
-  set: Setter,
+  { get, set }: MyTransactionInterface,
   junction: RecoilState<JScore>,
-  cones: ConeCount,
-  state: ConeState,
 ): void {
-  switch (state) {
+  const cones = get(remainingConesState);
+  const cstate = get(coneState);
+  const cur = get(junction);
+  switch (cstate) {
     case 'auto':
       // Only do it if we have some blue cones left
-      if (cones.auto.red > 0) {
-        set(
-          junction,
-          (cur): JScore => ({ ...cur, red: cur.red + 1, owner: 'r' }),
-        );
+      if (canPlace(cones.auto.red, cur)) {
+        set(junction, { ...cur, red: cur.red + 1, owner: 'r' });
         set(remainingConesState, {
           auto: { red: cones.auto.red - 1, blue: cones.auto.blue },
           normal: cones.normal,
@@ -159,11 +179,8 @@ export function tryRed(
       break;
     case 'normal':
       // Normal cones
-      if (cones.normal.red > 0) {
-        set(
-          junction,
-          (cur): JScore => ({ ...cur, red: cur.red + 1, owner: 'r' }),
-        );
+      if (canPlace(cones.normal.red, cur)) {
+        set(junction, { ...cur, red: cur.red + 1, owner: 'r' });
         set(remainingConesState, {
           auto: cones.auto,
           normal: { red: cones.normal.red - 1, blue: cones.normal.blue },
@@ -172,11 +189,8 @@ export function tryRed(
       }
       break;
     case 'beacon':
-      if (cones.beacon.red > 0) {
-        set(
-          junction,
-          (cur): JScore => ({ ...cur, red: cur.red + 1, owner: 'R' }),
-        );
+      if (canPlace(cones.beacon.red, cur)) {
+        set(junction, { ...cur, red: cur.red + 1, owner: 'R' });
         set(remainingConesState, {
           auto: cones.auto,
           normal: cones.normal,
