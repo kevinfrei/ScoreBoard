@@ -68,7 +68,7 @@ export function ConesRemaining(): JSX.Element {
       <div className="label">Regular</div>
       <div className="score">{cones.normal.red}</div>
       <div className="score">{cones.normal.blue}</div>
-      <div className="label">Beacons (NYI!)</div>
+      <div className="label">Beacons</div>
       <div className="score">{cones.beacon.red}</div>
       <div className="score">{cones.beacon.blue}</div>
     </div>
