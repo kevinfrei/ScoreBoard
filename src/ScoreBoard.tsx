@@ -20,7 +20,7 @@ export function Scores() {
     set(autoScoreState, { red, blue });
     set(remainingConesState, (cones: ConeCount) => ({
       auto: { red: 0, blue: 0 },
-      normal: { red: 26 + cones.auto.red, blue: 26 + cones.auto.blue },
+      normal: { red: 21 + cones.auto.red, blue: 21 + cones.auto.blue },
       beacon: { red: 2, blue: 2 },
     }));
   });

@@ -48,7 +48,7 @@ export function useMyTransaction<Args extends readonly unknown[], Return>(
 export const remainingConesState = atom<ConeCount>({
   key: 'cones left',
   default: {
-    auto: { red: 5, blue: 5 },
+    auto: { red: 10, blue: 10 },
     normal: { red: 0, blue: 0 },
     beacon: { red: 0, blue: 0 },
   },
