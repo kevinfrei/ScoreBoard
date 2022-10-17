@@ -1,46 +1,35 @@
-# Getting Started with Create React App
+# FTC PowerPlay 2022 ScoreBoard
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+This is a simple 'scoring' application to help FTC teams better consider
+strategy for the PowerPlay 2022 FTC Robotics game. Try it out
+[here](https://kevinfrei.github.io/ScoreBoard/) (it's blocked by our school
+district's wifi, unfortunately: It works on a phone in landscape mode pretty
+well).
 
-## Available Scripts
+First, you have 5 cones to place in the autonomous period. Once you've placed
+(at most) 5 cones, you click the "Click to record Auto" and the autonomous
+scoring is completed, freeing all cones for scoring. You can place the beacons
+by clicking the "Place Beacons" button. Once a junction has a beacon, you can no
+longer place any additional cones on that junction.
 
-In the project directory, you can run:
+There is no need to click any additional buttons to see the final score: It is
+kept up-to-date at all times. The only portions of scoring that are _not_
+considered are specific to robot parking. This means that the score calculated
+is a bit lower, but it does consider 'circuits' as well as capping.
 
-### `npm start`
+## Source code
 
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in the browser.
+This was created using [Create React App](https://create-react-app.dev/). It's
+[Typescript](https://www.typescriptlang.org/), [React](https://reactjs.org/),
+using [Recoil](https://recoiljs.org/) to manage state without requiring full
+re-renders of the entire UI.
 
-The page will reload if you make edits.\
-You will also see any lint errors in the console.
+Once you've cloned the repo:
 
-### `npm test`
+- `yarn install` will install all the dependencies.
+- `yarn start` will launch the application in _developer_ mode.
+- `yarn test` runs the (pitiful) tests I've written.
+- `yarn bulid` will build the full site into the `build` directory.
 
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
-
-### `npm run build`
-
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
-
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
-
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
-
-### `npm run eject`
-
-**Note: this is a one-way operation. Once you `eject`, you can’t go back!**
-
-If you aren’t satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
-
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you’re on your own.
-
-You don’t have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn’t feel obligated to use this feature. However we understand that this tool wouldn’t be useful if you couldn’t customize it when you are ready for it.
-
-## Learn More
-
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
-
-To learn React, check out the [React documentation](https://reactjs.org/).
+The code is all formatted with [Prettier](https://prettier.io), because thinking
+about code formatting is a waste of brain cells.
