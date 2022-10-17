@@ -60,6 +60,28 @@ export const junctionsStateFunc = atomFamily<JScore, number>({
   default: { red: 0, blue: 0 },
 });
 
+export const leftAutoRedConesState = selector<number>({
+  key: 'larcs',
+  get: ({ get }) => Math.floor(get(remainingConesState).auto.red / 2),
+});
+
+export const rightAutoRedConesState = selector<number>({
+  key: 'rarcs',
+  get: ({ get }) =>
+    get(remainingConesState).auto.red - get(leftAutoRedConesState),
+});
+
+export const leftAutoBlueConesState = selector<number>({
+  key: 'labcs',
+  get: ({ get }) => Math.floor(get(remainingConesState).auto.blue / 2),
+});
+
+export const rightAutoBlueConesState = selector<number>({
+  key: 'rabcs',
+  get: ({ get }) =>
+    get(remainingConesState).auto.blue - get(leftAutoBlueConesState),
+});
+
 // This is the full score calculated before starting to draw
 // down from the 'normal' cones
 export const autoScoreState = atom<Score | null>({

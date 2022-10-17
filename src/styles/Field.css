@@ -1,7 +1,11 @@
+/* To lay stuff out better, dynamically, check out:
+ * https://developer.mozilla.org/en-US/docs/Web/CSS/@media/aspect-ratio
+ */
 .field {
+  margin-top: 1vw;
   display: grid;
-  grid-template-columns: 7vw 14vw 14vw 14vw 14vw 14vw 7vw;
-  grid-template-rows: 7vh 14vh 14vh 14vh 14vh 14vh 7vh;
-  justify-content: center;
+  grid-template-columns: 9vw 16vw 16vw 16vw 16vw 16vw 9vw;
+  grid-template-rows: 9vw 16vw 16vw 16vw 16vw 16vw 9vw;
+  align-self: center;
   border: solid black 1pt;
 }

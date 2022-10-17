@@ -1,10 +1,21 @@
+import React from 'react';
 import { useRecoilValue } from 'recoil';
 import { getNameOfJunction, getPos, JScore, RowCol } from './Scoring';
-import { junctionsStateFunc, tryBlue, tryRed, useMyTransaction } from './State';
+import {
+  junctionsStateFunc,
+  leftAutoBlueConesState,
+  leftAutoRedConesState,
+  rightAutoBlueConesState,
+  rightAutoRedConesState,
+  tryBlue,
+  tryRed,
+  useMyTransaction,
+} from './State';
 
 import './styles/Junctions.css';
 
 type classType = { className?: string };
+type classAndChildren = classType & { children?: React.ReactNode };
 type pieceProps = classType & RowCol;
 
 // Component to display the scores in the terminal
@@ -41,8 +52,11 @@ function Corner({ row, col }: pieceProps): JSX.Element {
 }
 
 // Vertical edge
-function VEdge({ className }: classType): JSX.Element {
-  return <div className={`term v-edge ${className || ''}`} />;
+function VEdge({ className, children }: classAndChildren): JSX.Element {
+  if (children === undefined) {
+    return <div className={`term v-edge ${className || ''}`} />;
+  }
+  return <div className={`term v-edge ${className || ''}`}>{children}</div>;
 }
 
 // Horizontal edge
@@ -85,6 +99,40 @@ function Full({ className, row, col }: pieceProps): JSX.Element {
   );
 }
 
+function strcount(str: string, count: number): string {
+  let res = '';
+  while (count-- > 0) {
+    res += str;
+  }
+  return res;
+}
+
+function ConeStack({
+  which,
+  pos,
+}: {
+  which: 'red' | 'blue';
+  pos: 'left' | 'right';
+}): JSX.Element {
+  const leftBlueAuto = useRecoilValue(leftAutoBlueConesState);
+  const rightBlueAuto = useRecoilValue(rightAutoBlueConesState);
+  const leftRedAuto = useRecoilValue(leftAutoRedConesState);
+  const rightRedAuto = useRecoilValue(rightAutoRedConesState);
+  if (which === 'red') {
+    if (pos === 'left') {
+      return <div className="redscore">{strcount('▲', leftRedAuto)}</div>;
+    } else {
+      return <div className="redscore">{strcount('▲', rightRedAuto)}</div>;
+    }
+  } else {
+    if (pos === 'left') {
+      return <div className="bluescore">{strcount('▲', leftBlueAuto)}</div>;
+    } else {
+      return <div className="bluescore">{strcount('▲', rightBlueAuto)}</div>;
+    }
+  }
+}
+
 export function Junction({ row, col }: RowCol): JSX.Element {
   if ((row === 0 || row === 6) && (col === 0 || col === 6)) {
     return <Corner row={row} col={col} />;
@@ -99,10 +147,23 @@ export function Junction({ row, col }: RowCol): JSX.Element {
   }
   if (col === 0 || col === 6) {
     // Row 3 is the auto stack row
-    if (row === 3) {
-      return <VEdge className="stack" />;
-    } else {
+    if (row !== 3) {
       return <VEdge />;
+    }
+    if (col === 0) {
+      return (
+        <VEdge className="stack">
+          <ConeStack which="blue" pos="left" />
+          <ConeStack which="red" pos="left" />
+        </VEdge>
+      );
+    } else {
+      return (
+        <VEdge className="stack">
+          <ConeStack which="blue" pos="right" />
+          <ConeStack which="red" pos="right" />
+        </VEdge>
+      );
     }
   }
   const className = getNameOfJunction(row, col);

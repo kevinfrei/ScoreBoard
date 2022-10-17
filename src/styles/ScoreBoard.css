@@ -30,7 +30,7 @@
 .coneboard {
   display: grid;
   gap: 5pt;
-  grid-template-columns: auto 1fr 1fr;
+  grid-template-columns: auto 0.5fr 1fr 1fr;
   grid-template-rows: auto auto auto auto;
   justify-content: space-around;
   margin: 5pt;
@@ -39,6 +39,7 @@
 .auto {
   grid-column: 1 / span 3;
   text-align: center;
+  justify-self: center;
 }
 
 .header {

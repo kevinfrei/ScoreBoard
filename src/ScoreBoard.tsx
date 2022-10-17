@@ -34,7 +34,7 @@ export function Scores() {
         <div className="score">{red}</div>
         <div className="score">{blue}</div>
         <div className="auto button" onClick={registerAuto}>
-          Click to record Auto
+          Record Auto
         </div>
       </div>
     );
@@ -60,15 +60,19 @@ export function ConesRemaining(): JSX.Element {
   return (
     <div className="coneboard">
       <div className="header">Cones Remaining</div>
+      <div />
       <div className="header">Red</div>
       <div className="header">Blue</div>
       <div className={`label${inactive}`}>Autonomous</div>
+      <div />
       <div className={`score${inactive}`}>{cones.auto.red}</div>
       <div className={`score${inactive}`}>{cones.auto.blue}</div>
       <div className="label">Regular</div>
+      <div />
       <div className="score">{cones.normal.red}</div>
       <div className="score">{cones.normal.blue}</div>
       <div className="label">Beacons</div>
+      <div />
       <div className="score">{cones.beacon.red}</div>
       <div className="score">{cones.beacon.blue}</div>
     </div>

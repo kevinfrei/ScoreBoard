@@ -32,6 +32,9 @@
 }
 
 .v-edge.stack {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-around;
   background: linear-gradient(
       0deg,
       transparent 7%,
