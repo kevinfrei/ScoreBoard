@@ -81,11 +81,11 @@ function ButtonPanel(): JSX.Element {
   const flipBeacon = () => setPlacing(!placing);
   const inAuto = useRecoilValue(inAutoState);
   const beacon = inAuto ? (
+    <div />
+  ) : (
     <div className="button beacon" onClick={flipBeacon}>
       {text}
     </div>
-  ) : (
-    <div />
   );
   const clickReset = useRecoilCallback(({ reset }) => () => {
     reset(remainingConesState);
