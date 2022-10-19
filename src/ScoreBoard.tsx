@@ -8,20 +8,13 @@ import {
   placeBeaconsState,
   redScoreState,
   remainingConesState,
+  useMyTransaction,
 } from './State';
 
 export function Scores() {
   const red = useRecoilValue(redScoreState);
   const blue = useRecoilValue(blueScoreState);
   const auto = useRecoilValue(autoScoreState);
-  const registerAuto = useRecoilCallback(({ set }) => () => {
-    set(autoScoreState, { red, blue });
-    set(remainingConesState, (cones: ConeCount) => ({
-      auto: { red: 0, blue: 0 },
-      normal: { red: 21 + cones.auto.red, blue: 21 + cones.auto.blue },
-      beacon: { red: 2, blue: 2 },
-    }));
-  });
   if (auto === null) {
     return (
       <div className="scoreboard">
@@ -31,9 +24,6 @@ export function Scores() {
         <div className="label">Autonomous period</div>
         <div className="score red">{red}</div>
         <div className="score blue">{blue}</div>
-        <div className="auto button" onClick={registerAuto}>
-          Record Auto
-        </div>
       </div>
     );
   }
@@ -82,8 +72,18 @@ function ButtonPanel(): JSX.Element {
   const text = placing ? 'Place Cones' : 'Place Beacons';
   const flipBeacon = () => setPlacing(!placing);
   const inAuto = useRecoilValue(inAutoState);
-  const beacon = inAuto ? (
-    <div />
+  const registerAuto = useMyTransaction(({ set, get }) => () => {
+    set(autoScoreState, { red: get(redScoreState), blue: get(blueScoreState) });
+    set(remainingConesState, (cones: ConeCount) => ({
+      auto: { red: 0, blue: 0 },
+      normal: { red: 21 + cones.auto.red, blue: 21 + cones.auto.blue },
+      beacon: { red: 2, blue: 2 },
+    }));
+  });
+  const beaconOrAuto = inAuto ? (
+    <div className="auto button" onClick={registerAuto}>
+      Record Auto
+    </div>
   ) : (
     <div className="button beacon" onClick={flipBeacon}>
       {text}
@@ -99,10 +99,10 @@ function ButtonPanel(): JSX.Element {
   });
   return (
     <div id="button-panel">
+      {beaconOrAuto}
       <div className="button" onClick={clickReset}>
         Reset Game!
       </div>
-      {beacon}
     </div>
   );
 }

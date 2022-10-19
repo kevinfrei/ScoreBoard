@@ -6,6 +6,16 @@ body {
   padding: 0;
 }
 
+.button {
+  background: radial-gradient(#ddd 0%, #eee 90%, #fff 100%);
+  border: solid 1pt black;
+  border-radius: 3pt;
+  cursor: pointer;
+  margin: 1pt;
+  padding: 3pt 3pt 2pt 3pt;
+  text-align: center;
+}
+
 /* Common stuff for things that change with aspect ratio: */
 .App {
   display: flex;
@@ -17,9 +27,34 @@ body {
   align-self: center;
   border: solid black 1pt;
 }
-/* To lay stuff out better, dynamically, check out:
- * https://developer.mozilla.org/en-US/docs/Web/CSS/@media/aspect-ratio
- */
+.inactive {
+  color: gray;
+}
+.header {
+  font-weight: bold;
+}
+.label {
+  text-align: right;
+  font-weight: bold;
+}
+.score {
+  text-align: center;
+}
+.redscore,
+.red .tscore {
+  color: red;
+}
+.bluescore,
+.blue .tscore {
+  color: blue;
+}
+.stats {
+  display: flex;
+  justify-content: space-evenly;
+  align-items: center;
+  justify-items: center;
+}
+/* To lay stuff out better, dynamically, check out: https://developer.mozilla.org/en-US/docs/Web/CSS/@media/aspect-ratio */
 @media (max-aspect-ratio: 17 / 20) {
   /* Portrait mode layout */
   .App {
@@ -31,9 +66,12 @@ body {
     grid-template-columns: 9vw 16vw 16vw 16vw 16vw 16vw 9vw;
     grid-template-rows: 9vw 16vw 16vw 16vw 16vw 16vw 9vw;
   }
+  .stats {
+    flex-direction: row;
+    width: 100%;
+  }
 }
 /* TODO: Get a layout that works for the 'in between' aspect ratio */
-
 @media (min-aspect-ratio: 20 / 17) {
   /* Landscape mode layout */
   .App {
@@ -46,36 +84,11 @@ body {
     grid-template-columns: 9vh 16vh 16vh 16vh 16vh 16vh 9vh;
     grid-template-rows: 9vh 16vh 16vh 16vh 16vh 16vh 9vh;
   }
+  .stats {
+    flex-direction: column;
+    height: 100%;
+  }
 }
-
-.button {
-  background: radial-gradient(#ddd 0%, #eee 90%, #fff 100%);
-  border: solid 1pt black;
-  border-radius: 3pt;
-  cursor: pointer;
-  margin: 2pt;
-  padding: 3pt 3pt 2pt 3pt;
-}
-
-.redscore,
-.red .tscore {
-  color: red;
-}
-
-.bluescore,
-.blue .tscore {
-  color: blue;
-}
-
-.stats {
-  display: flex;
-  flex-direction: row;
-  width: 100%;
-  justify-content: space-evenly;
-  align-items: center;
-  justify-items: center;
-}
-
 .scoreboard {
   display: grid;
   gap: 5pt;
@@ -84,14 +97,12 @@ body {
   justify-content: space-around;
   margin: 5pt;
 }
-
 #button-panel {
   display: flex;
   flex-direction: column;
-  justify-content: center;
-  align-items: center;
+  justify-content: space-between;
+  align-items: stretch;
 }
-
 .coneboard {
   display: grid;
   gap: 5pt;
@@ -100,26 +111,8 @@ body {
   justify-content: space-around;
   margin: 5pt;
 }
-
-.inactive {
-  color: gray;
-}
-
 .auto {
   grid-column: 1 / span 3;
   text-align: center;
   justify-self: center;
-}
-
-.header {
-  font-weight: bold;
-}
-
-.label {
-  text-align: right;
-  font-weight: bold;
-}
-
-.score {
-  text-align: center;
 }
