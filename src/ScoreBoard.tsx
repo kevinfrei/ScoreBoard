@@ -10,8 +10,6 @@ import {
   remainingConesState,
 } from './State';
 
-import './styles/ScoreBoard.css';
-
 export function Scores() {
   const red = useRecoilValue(redScoreState);
   const blue = useRecoilValue(blueScoreState);
@@ -27,12 +25,12 @@ export function Scores() {
   if (auto === null) {
     return (
       <div className="scoreboard">
-        <div />
-        <div className="header">Red</div>
-        <div className="header">Blue</div>
+        <div className="spacer" />
+        <div className="header red">Red</div>
+        <div className="header blue">Blue</div>
         <div className="label">Autonomous period</div>
-        <div className="score">{red}</div>
-        <div className="score">{blue}</div>
+        <div className="score red">{red}</div>
+        <div className="score blue">{blue}</div>
         <div className="auto button" onClick={registerAuto}>
           Record Auto
         </div>
@@ -41,15 +39,15 @@ export function Scores() {
   }
   return (
     <div className="scoreboard">
-      <div />
-      <div className="header">Red</div>
-      <div className="header">Blue</div>
+      <div className="spacer" />
+      <div className="header red">Red</div>
+      <div className="header blue">Blue</div>
       <div className="label inactive">Autonomous period</div>
-      <div className="score inactive">{auto.red}</div>
-      <div className="score inactive">{auto.blue}</div>
+      <div className="score inactive red">{auto.red}</div>
+      <div className="score inactive blue">{auto.blue}</div>
       <div className="label">Final</div>
-      <div className="score">{red}</div>
-      <div className="score">{blue}</div>
+      <div className="score red">{red}</div>
+      <div className="score blue">{blue}</div>
     </div>
   );
 }
