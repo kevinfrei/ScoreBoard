@@ -1,13 +1,13 @@
 {
   "files": {
-    "main.css": "https://kevinfrei.github.io/ScoreBoard/static/css/main.05440c4d.css",
+    "main.css": "https://kevinfrei.github.io/ScoreBoard/static/css/main.10052ceb.css",
     "main.js": "https://kevinfrei.github.io/ScoreBoard/static/js/main.c9108e29.js",
     "index.html": "https://kevinfrei.github.io/ScoreBoard/index.html",
-    "main.05440c4d.css.map": "https://kevinfrei.github.io/ScoreBoard/static/css/main.05440c4d.css.map",
+    "main.10052ceb.css.map": "https://kevinfrei.github.io/ScoreBoard/static/css/main.10052ceb.css.map",
     "main.c9108e29.js.map": "https://kevinfrei.github.io/ScoreBoard/static/js/main.c9108e29.js.map"
   },
   "entrypoints": [
-    "static/css/main.05440c4d.css",
+    "static/css/main.10052ceb.css",
     "static/js/main.c9108e29.js"
   ]
 }
