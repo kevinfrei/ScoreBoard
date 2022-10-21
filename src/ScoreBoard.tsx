@@ -17,22 +17,22 @@ export function Scores() {
   const auto = useRecoilValue(autoScoreState);
   if (auto === null) {
     return (
-      <div className="scoreboard">
-        <div className="spacer" />
+      <div id="scoreboard">
+        <div className="header label">Score</div>
         <div className="header red">Red</div>
         <div className="header blue">Blue</div>
-        <div className="label">Autonomous period</div>
+        <div className="label">Auto</div>
         <div className="score red">{red}</div>
         <div className="score blue">{blue}</div>
       </div>
     );
   }
   return (
-    <div className="scoreboard">
-      <div className="spacer" />
+    <div id="scoreboard">
+      <div className="header label">Score</div>
       <div className="header red">Red</div>
       <div className="header blue">Blue</div>
-      <div className="label inactive">Autonomous period</div>
+      <div className="label inactive">Auto</div>
       <div className="score inactive red">{auto.red}</div>
       <div className="score inactive blue">{auto.blue}</div>
       <div className="label">Final</div>
@@ -46,21 +46,17 @@ export function ConesRemaining(): JSX.Element {
   const cones = useRecoilValue(remainingConesState);
   const inactive = useRecoilValue(inAutoState) ? '' : ' inactive';
   return (
-    <div className="coneboard">
-      <div className="header">Cones Remaining</div>
-      <div />
+    <div id="coneboard">
+      <div className="header label">Cones Remaining</div>
       <div className="header">Red</div>
       <div className="header">Blue</div>
-      <div className={`label${inactive}`}>Autonomous</div>
-      <div />
+      <div className={`label${inactive}`}>Auto</div>
       <div className={`score${inactive}`}>{cones.auto.red}</div>
       <div className={`score${inactive}`}>{cones.auto.blue}</div>
       <div className="label">Regular</div>
-      <div />
       <div className="score">{cones.normal.red}</div>
       <div className="score">{cones.normal.blue}</div>
       <div className="label">Beacons</div>
-      <div />
       <div className="score">{cones.beacon.red}</div>
       <div className="score">{cones.beacon.blue}</div>
     </div>
@@ -81,11 +77,11 @@ function ButtonPanel(): JSX.Element {
     }));
   });
   const beaconOrAuto = inAuto ? (
-    <div className="auto button" onClick={registerAuto}>
+    <div className="button" onClick={registerAuto}>
       Record Auto
     </div>
   ) : (
-    <div className="button beacon" onClick={flipBeacon}>
+    <div className="button" onClick={flipBeacon}>
       {text}
     </div>
   );

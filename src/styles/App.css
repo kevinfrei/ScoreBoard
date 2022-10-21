@@ -15,7 +15,6 @@ body {
   padding: 3pt 3pt 2pt 3pt;
   text-align: center;
 }
-
 /* Common stuff for things that change with aspect ratio: */
 .App {
   display: flex;
@@ -31,22 +30,30 @@ body {
   color: gray;
 }
 .header {
+  text-align: center;
   font-weight: bold;
 }
 .label {
+  align-self: flex-end;
   text-align: right;
   font-weight: bold;
+  font-size: larger;
 }
 .score {
   text-align: center;
 }
 .redscore,
-.red .tscore {
+.red .terminal.score {
   color: red;
 }
 .bluescore,
-.blue .tscore {
+.blue .terminal.score {
   color: blue;
+}
+.redscore.cones,
+.bluescore.cones {
+  letter-spacing: -3pt;
+  font-size: smaller;
 }
 .stats {
   display: flex;
@@ -54,14 +61,31 @@ body {
   align-items: center;
   justify-items: center;
 }
+#button-panel {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  align-items: stretch;
+}
+#scoreboard {
+  display: grid;
+  gap: 5pt;
+  justify-content: space-around;
+  margin: 5pt;
+}
+#coneboard {
+  display: grid;
+  gap: 5pt;
+  justify-content: space-around;
+  margin: 5pt;
+}
 /* To lay stuff out better, dynamically, check out: https://developer.mozilla.org/en-US/docs/Web/CSS/@media/aspect-ratio */
-@media (max-aspect-ratio: 17 / 20) {
+@media (max-aspect-ratio: 7 / 8) {
   /* Portrait mode layout */
   .App {
     flex-direction: column;
   }
   .field {
-    background-color: bisque;
     margin-top: 1vw;
     grid-template-columns: 9vw 16vw 16vw 16vw 16vw 16vw 9vw;
     grid-template-rows: 9vw 16vw 16vw 16vw 16vw 16vw 9vw;
@@ -69,6 +93,37 @@ body {
   .stats {
     flex-direction: row;
     width: 100%;
+  }
+  #scoreboard {
+    grid-template-columns: auto 1fr 1fr;
+    grid-template-rows: auto auto auto;
+  }
+  #coneboard {
+    grid-template-columns: 1fr 0.5fr 0.5fr;
+    grid-template-rows: auto auto auto auto;
+  }
+}
+@media (min-aspect-ratio: 7 / 8) {
+  /* Portrait mode layout */
+  .App {
+    flex-direction: column;
+  }
+  .field {
+    margin-top: 0.5vh;
+    grid-template-columns: 6vh 14vh 14vh 14vh 14vh 14vh 6vh;
+    grid-template-rows: 6vh 14vh 14vh 14vh 14vh 14vh 6vh;
+  }
+  .stats {
+    flex-direction: row;
+    width: 100%;
+  }
+  #scoreboard {
+    grid-template-columns: auto 1fr 1fr;
+    grid-template-rows: auto auto auto;
+  }
+  #coneboard {
+    grid-template-columns: 1fr 0.5fr 0.5fr;
+    grid-template-rows: auto auto auto auto;
   }
 }
 /* TODO: Get a layout that works for the 'in between' aspect ratio */
@@ -78,7 +133,6 @@ body {
     flex-direction: row;
   }
   .field {
-    background-color: lightcyan;
     margin-top: 1vh;
     margin-left: 1vh;
     grid-template-columns: 9vh 16vh 16vh 16vh 16vh 16vh 9vh;
@@ -88,31 +142,22 @@ body {
     flex-direction: column;
     height: 100%;
   }
-}
-.scoreboard {
-  display: grid;
-  gap: 5pt;
-  grid-template-columns: auto 1fr 1fr;
-  grid-template-rows: auto auto auto;
-  justify-content: space-around;
-  margin: 5pt;
-}
-#button-panel {
-  display: flex;
-  flex-direction: column;
-  justify-content: space-between;
-  align-items: stretch;
-}
-.coneboard {
-  display: grid;
-  gap: 5pt;
-  grid-template-columns: auto 0.5fr 1fr 1fr;
-  grid-template-rows: auto auto auto auto;
-  justify-content: space-around;
-  margin: 5pt;
-}
-.auto {
-  grid-column: 1 / span 3;
-  text-align: center;
-  justify-self: center;
+  #scoreboard {
+    grid-template-columns: 1fr 1fr;
+    grid-template-rows: auto auto auto auto;
+  }
+  #scoreboard .label {
+    grid-column: 1/3;
+    text-align: center;
+    font-size: larger;
+  }
+  #coneboard {
+    grid-template-columns: 1fr 1fr;
+    grid-template-rows: auto auto auto auto auto auto auto auto;
+  }
+  #coneboard .label {
+    grid-column: 1/3;
+    text-align: center;
+    font-size: larger;
+  }
 }
