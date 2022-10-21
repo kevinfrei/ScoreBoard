@@ -1,7 +1,5 @@
 import { Junction } from './Junction';
 
-import './styles/Field.css';
-
 export function Field(): JSX.Element {
   const theJunctions: JSX.Element[] = [];
   for (let i = 0; i < 7; i++) {

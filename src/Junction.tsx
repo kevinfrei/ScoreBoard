@@ -26,7 +26,7 @@ function TerminalScore({ score }: { score: JScore }): JSX.Element {
   if (score.blue !== 0 && score.red !== 0) {
     return <div>ERROR!</div>;
   }
-  return <div className="tscore">&#9650; {score.blue + score.red}</div>;
+  return <div className="terminal score">&#9650; {score.blue + score.red}</div>;
 }
 
 // These are the 4 terminals.
@@ -120,15 +120,21 @@ function ConeStack({
   const rightRedAuto = useRecoilValue(rightAutoRedConesState);
   if (which === 'red') {
     if (pos === 'left') {
-      return <div className="redscore">{strcount('▲', leftRedAuto)}</div>;
+      return <div className="redscore cones">{strcount('▲', leftRedAuto)}</div>;
     } else {
-      return <div className="redscore">{strcount('▲', rightRedAuto)}</div>;
+      return (
+        <div className="redscore cones">{strcount('▲', rightRedAuto)}</div>
+      );
     }
   } else {
     if (pos === 'left') {
-      return <div className="bluescore">{strcount('▲', leftBlueAuto)}</div>;
+      return (
+        <div className="bluescore cones">{strcount('▲', leftBlueAuto)}</div>
+      );
     } else {
-      return <div className="bluescore">{strcount('▲', rightBlueAuto)}</div>;
+      return (
+        <div className="bluescore cones">{strcount('▲', rightBlueAuto)}</div>
+      );
     }
   }
 }
