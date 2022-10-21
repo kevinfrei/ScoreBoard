@@ -4,127 +4,130 @@
   justify-content: center;
   align-items: center;
 }
-
 .terminal.score {
-  background-color: #ffffffc0;
+  background-color: #fffc;
 }
-
 .corner.red {
-  background: linear-gradient(
-      45deg,
-      transparent 45%,
-      red 45%,
-      red 55%,
-      transparent 55%
-    )
+  background: linear-gradient(45deg, #0000 45%, #f008 45%, #f008 55%, #0000 55%)
     no-repeat;
 }
-
 .corner.blue {
   background: linear-gradient(
       -45deg,
-      transparent 44%,
-      blue 45%,
-      blue 55%,
-      transparent 55%
+      #0000 44%,
+      #00f8 45%,
+      #00f8 55%,
+      #0000 55%
     )
     no-repeat;
 }
 
+.v-edge {
+  background: linear-gradient(0deg, #fff2 49%, #0008 49%, #0008 51%, #fff2 51%)
+    no-repeat;
+}
+.h-edge {
+  background: linear-gradient(90deg, #fff2 49%, #0008 49%, #0008 51%, #fff2 51%)
+    no-repeat;
+}
 .v-edge.stack {
   display: flex;
   flex-direction: column;
   justify-content: space-around;
   background: linear-gradient(
-      0deg,
-      transparent 7%,
-      red 7%,
-      red 14%,
-      transparent 14%,
-      transparent 86%,
-      blue 86%,
-      blue 93%,
-      transparent 93%
-    )
-    no-repeat;
+        0deg,
+        #0000 7%,
+        #f008 7%,
+        #f008 14%,
+        #0000 14%,
+        #0000 86%,
+        #00f8 86%,
+        #00f8 93%,
+        #0000 93%
+      )
+      no-repeat,
+    linear-gradient(0deg, #fff2 49%, #0008 49%, #0008 51%, #fff2 51%) no-repeat;
 }
 
 .h-edge.blue-depot {
-  background: linear-gradient(0deg, white 50%, transparent 50%) no-repeat,
-    linear-gradient(45deg, transparent 46%, blue 46%, blue 54%, transparent 54%)
+  background: linear-gradient(90deg, #fff8 49%, #0008 49%, #0008 51%, #fff8 51%)
       no-repeat,
-    linear-gradient(
-        -45deg,
-        transparent 46%,
-        blue 46%,
-        blue 54%,
-        transparent 54%
-      )
-      no-repeat;
+    linear-gradient(0deg, #fff 50%, #0000 50%) no-repeat,
+    linear-gradient(45deg, #0000 46%, blue 46%, blue 52%, #0000 52%) no-repeat,
+    linear-gradient(-45deg, #0000 46%, blue 46%, blue 52%, #0000 52%) no-repeat;
 }
 
 .h-edge.red-depot {
-  background: linear-gradient(0deg, transparent 50%, white 50%) no-repeat,
-    linear-gradient(45deg, transparent 46%, red 46%, red 54%, transparent 54%)
+  background: linear-gradient(90deg, #fff8 49%, #0008 49%, #0008 51%, #fff8 51%)
       no-repeat,
-    linear-gradient(-45deg, transparent 46%, red 46%, red 54%, transparent 54%)
-      no-repeat;
+    linear-gradient(0deg, #0000 50%, #fff 50%) no-repeat,
+    linear-gradient(45deg, #0000 48%, red 48%, red 54%, #0000 54%) no-repeat,
+    linear-gradient(-45deg, #0000 48%, red 48%, red 54%, #0000 54%) no-repeat;
 }
 
 .normal.ground {
-  background: radial-gradient(
-    lightgray 0%,
-    lightgray 8%,
-    black 15%,
-    transparent 15%
-  );
+  background: radial-gradient(#ddd 0%, #ddd 8%, #000 15%, #0000 15%),
+    linear-gradient(0deg, #fff2 49%, #0008 49%, #0008 51%, #fff2 51%) no-repeat,
+    linear-gradient(90deg, #fff8 49%, #0008 49%, #0008 51%, #fff8 51%) no-repeat;
 }
 .normal.ground.red {
-  background: radial-gradient(red 0%, red 3%, black 15%, transparent 15%);
+  background: radial-gradient(red 0%, red 3%, black 15%, transparent 15%),
+    linear-gradient(0deg, #fff2 49%, #0008 49%, #0008 51%, #fff2 51%) no-repeat,
+    linear-gradient(90deg, #fff8 49%, #0008 49%, #0008 51%, #fff8 51%) no-repeat;
 }
 .normal.ground.blue {
-  background: radial-gradient(
-    lightblue 0%,
-    blue 5%,
-    black 15%,
-    transparent 15%
-  );
+  background: radial-gradient(lightblue 0%, blue 5%, black 15%, transparent 15%),
+    linear-gradient(0deg, #fff2 49%, #0008 49%, #0008 51%, #fff2 51%) no-repeat,
+    linear-gradient(90deg, #fff8 49%, #0008 49%, #0008 51%, #fff8 51%) no-repeat;
 }
 
 .normal.low {
-  background: radial-gradient(yellow 0%, yellow 5%, black 6%, transparent 7%);
+  background: radial-gradient(#ff0 0%, #ff0 5%, #000 6%, #0000 7%),
+    linear-gradient(0deg, #fff2 49%, #0008 49%, #0008 51%, #fff2 51%) no-repeat,
+    linear-gradient(90deg, #fff8 49%, #0008 49%, #0008 51%, #fff8 51%) no-repeat;
 }
 .normal.low.red {
-  background: radial-gradient(red 0%, red 5%, black 6%, transparent 7%);
+  background: radial-gradient(red 0%, red 5%, #000 6%, #0000 7%),
+    linear-gradient(0deg, #fff2 49%, #0008 49%, #0008 51%, #fff2 51%) no-repeat,
+    linear-gradient(90deg, #fff8 49%, #0008 49%, #0008 51%, #fff8 51%) no-repeat;
 }
 
 .normal.low.blue {
-  background: radial-gradient(blue 0%, blue 5%, black 6%, transparent 7%);
+  background: radial-gradient(blue 0%, blue 5%, #000 6%, #0000 7%),
+    linear-gradient(0deg, #fff2 49%, #0008 49%, #0008 51%, #fff2 51%) no-repeat,
+    linear-gradient(90deg, #fff8 49%, #0008 49%, #0008 51%, #fff8 51%) no-repeat;
 }
 
 .normal.medium {
-  background: radial-gradient(yellow 0%, yellow 8%, black 9%, transparent 10%);
+  background: radial-gradient(yellow 0%, yellow 8%, black 9%, transparent 10%),
+    linear-gradient(0deg, #fff2 49%, #0008 49%, #0008 51%, #fff2 51%) no-repeat,
+    linear-gradient(90deg, #fff8 49%, #0008 49%, #0008 51%, #fff8 51%) no-repeat;
 }
 .normal.medium.red {
-  background: radial-gradient(red 0%, red 8%, black 9%, transparent 10%);
+  background: radial-gradient(red 0%, red 8%, black 9%, transparent 10%),
+    linear-gradient(0deg, #fff2 49%, #0008 49%, #0008 51%, #fff2 51%) no-repeat,
+    linear-gradient(90deg, #fff8 49%, #0008 49%, #0008 51%, #fff8 51%) no-repeat;
 }
 .normal.medium.blue {
-  background: radial-gradient(blue 0%, blue 8%, black 9%, transparent 10%);
+  background: radial-gradient(blue 0%, blue 8%, black 9%, transparent 10%),
+    linear-gradient(0deg, #fff2 49%, #0008 49%, #0008 51%, #fff2 51%) no-repeat,
+    linear-gradient(90deg, #fff8 49%, #0008 49%, #0008 51%, #fff8 51%) no-repeat;
 }
 
 .normal.high {
-  background: radial-gradient(
-    yellow 0%,
-    yellow 12%,
-    black 13%,
-    transparent 14%
-  );
+  background: radial-gradient(yellow 0%, yellow 12%, black 13%, transparent 14%),
+    linear-gradient(0deg, #fff2 49%, #0008 49%, #0008 51%, #fff2 51%) no-repeat,
+    linear-gradient(90deg, #fff8 49%, #0008 49%, #0008 51%, #fff8 51%) no-repeat;
 }
 .normal.high.red {
-  background: radial-gradient(red 0%, red 12%, black 13%, transparent 14%);
+  background: radial-gradient(red 0%, red 12%, black 13%, transparent 14%),
+    linear-gradient(0deg, #fff2 49%, #0008 49%, #0008 51%, #fff2 51%) no-repeat,
+    linear-gradient(90deg, #fff8 49%, #0008 49%, #0008 51%, #fff8 51%) no-repeat;
 }
 .normal.high.blue {
-  background: radial-gradient(blue 0%, blue 12%, black 13%, transparent 14%);
+  background: radial-gradient(blue 0%, blue 12%, black 13%, transparent 14%),
+    linear-gradient(0deg, #fff2 49%, #0008 49%, #0008 51%, #fff2 51%) no-repeat,
+    linear-gradient(90deg, #fff8 49%, #0008 49%, #0008 51%, #fff8 51%) no-repeat;
 }
 
 .normal {

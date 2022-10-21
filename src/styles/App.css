@@ -62,7 +62,7 @@ body {
 .field {
   display: grid;
   align-self: center;
-  border: solid black 1pt;
+  border: solid #0008 2pt;
 }
 .inactive {
   color: gray;
