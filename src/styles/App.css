@@ -103,16 +103,21 @@ body {
   display: flex;
   flex-direction: column;
   justify-content: space-between;
+  gap: 5pt;
   align-items: stretch;
 }
 #scoreboard {
   display: grid;
+  border: solid #eee 1px;
+  padding: 3px;
   gap: 5pt;
   justify-content: space-around;
   margin: 5pt;
 }
 #coneboard {
   display: grid;
+  border: solid #eee 1px;
+  padding: 3px;
   gap: 5pt;
   justify-content: space-around;
   margin: 5pt;
