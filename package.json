@@ -17,7 +17,9 @@
     "format": "prettier --write src/**/*.ts* src/**/*.css *.json .prettierrc *.js",
     "postinstall": "husky install",
     "predeploy": "yarn build",
-    "deploy": "yarn predeploy && gh-pages -d build"
+    "deploy": "yarn predeploy && gh-pages -d build",
+    "hook-commit": "yarn format",
+    "hook-push": "echo no tests..."
   },
   "eslintConfig": {
     "extends": ["react-app", "react-app/jest"]
